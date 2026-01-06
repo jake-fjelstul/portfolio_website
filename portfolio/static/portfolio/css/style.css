@@ -1,0 +1,357 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+main {
+    padding-top: 0px;
+}
+
+/* Fullscreen hero section */
+.hero-section {
+    height: 100vh;
+    background-color: #0f0f0f;
+    padding: 0 1rem;
+}
+
+/* Project cards */
+.card h5 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.skills {
+    background-color: #1a1a1a;  /* Replace with any shade you want */
+    color: #f0f0f0;
+}
+
+#skills img {
+    transition: transform 0.3s ease;
+}
+#skills img:hover {
+    transform: scale(1.2);
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Scroll behavior */
+body {
+    scroll-behavior: smooth;
+}
+
+/* Section spacing */
+.hero-section,
+#projects,
+#skills,
+#contact,
+#footer-section {
+    padding-top: 6vh;
+    padding-bottom: 12vh;
+}
+
+/* Hero section */
+.hero-section {
+    background-color: #0f0f0f;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Scroll-down arrow */
+.scroll-down-arrow {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 40px;
+    border: 2px solid #00ffee;
+    border-radius: 50px;
+    z-index: 10;
+}
+.scroll-down-arrow span {
+    display: block;
+    width: 4px;
+    height: 8px;
+    background: #00ffee;
+    margin: 8px auto;
+    border-radius: 2px;
+    animation: scrollDown 1.5s infinite;
+}
+@keyframes scrollDown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(10px);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.section-header {
+    margin-top: 2vh;
+    margin-bottom: 12vh;
+    text-align: center;
+}
+
+.footer-section {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+    border-top: 1px solid #333;
+    min-height: 200px;            /* Fixes height issues */
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.social-links a {
+    font-size: 2.2rem;
+    color: #f0f0f0;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #00ffee;
+    transform: translateY(-3px);
+}
+
+.footer-section .btn {
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.footer-section .btn:hover {
+    background-color: #00ffee;
+    color: #000;
+    border-color: #00ffee;
+}
+
+.unity-hero {
+    height: 100vh;
+    position: relative;
+    background-color: #121212;
+    overflow: hidden;
+}
+
+.unity-hero canvas {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.unity-hero .z-1 {
+    z-index: 1;
+    position: relative;
+}
+
+.hardware-hero {
+    height: 100vh;
+    position: relative;
+    background-color: #121212;
+    overflow: hidden;
+}
+
+.hardware-hero canvas {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.hardware-hero .z-1 {
+    z-index: 1;
+    position: relative;
+}
+
+.hero-section {
+    height: 100vh;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+    background-color: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.hero-section canvas {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    z-index: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+}
+  
+.hero-section .z-1 {
+    position: relative;
+    z-index: 10 !important;
+}
+
+/* Timeline full layout */
+.timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px 0;
+  }
+  
+  /* Timeline vertical line */
+  .timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: #555;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+  }
+  
+  /* Container for each item */
+  .timeline-item {
+    padding: 20px 40px;
+    position: relative;
+    width: 50%;
+  }
+  
+  /* Common content box */
+  .timeline-content {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    border-left: 4px solid #00ffee;
+    box-shadow: 0 0 10px rgba(0, 255, 238, 0.1);
+  }
+  
+  .timeline-title {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .timeline-date {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+    margin-bottom: 10px;
+  }
+  
+  .timeline-description {
+    color: #dddddd;
+    margin: 0;
+  }
+  
+  /* Left items */
+  .timeline-item.left {
+    left: 0;
+  }
+  
+  /* Right items */
+  .timeline-item.right {
+    left: 50%;
+  }
+  
+  /* Circles on the line */
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: -8px;
+    background-color: #00ffee;
+    border-radius: 50%;
+    top: 24px;
+    z-index: 1;
+  }
+  
+  /* Flip side for right */
+  .timeline-item.right::before {
+    left: -8px;
+    right: auto;
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    .timeline::after {
+      left: 8px;
+    }
+  
+    .timeline-item {
+      width: 100%;
+      padding-left: 30px;
+      padding-right: 0;
+    }
+  
+    .timeline-item.left, .timeline-item.right {
+      left: 0;
+    }
+  
+    .timeline-item::before {
+      left: 0 !important;
+    }
+  }
+
+  .timeline-icon {
+    position: absolute;
+    left: -8px;
+    top: 24px;
+    background-color: #00ffee;
+    color: #0a0a0a;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 0 8px rgba(0, 255, 238, 0.4);
+  }
+  
+  .timeline-item.right .timeline-icon {
+    left: auto;
+    right: -8px;
+  }
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

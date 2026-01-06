@@ -1,0 +1,140 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+{% block title %}Unity Projects{% endblock %}
+
+{% block content %}
+<!-- UNITY PROJECTS PAGE -->
+<section class="unity-hero text-white text-center d-flex align-items-center justify-content-center position-relative">
+    <div class="z-1 position-relative">
+      <h1 class="display-5 fw-bold" data-aos="zoom-in">Unity Games</h1>
+      <p class="lead mt-3" data-aos="fade-up" data-aos-delay="200">
+        Explore games I've built using Unity — from prototypes to polished releases.
+      </p>
+    </div>
+</section>
+  
+
+<section class="bg-light text-dark py-5" id="unity-projects">
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="fade-up">Projects</h2>
+
+    <!-- Example game card (add these later as needed) -->
+    <div id="game-card" class="row justify-content-center">
+      <div class="col-md-10 mb-4 shrink-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="card shadow" id="unity-card" style="cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+          <div class="card-body text-center">
+            <h5 class="card-title">Tiny World</h5>
+            <p class="card-text">Don't crash!</p>
+
+            <!-- Thumbnail -->
+            <div id="game-thumbnail" style="cursor: pointer;">
+              <img src="{% static 'portfolio/img/tinyworld.png' %}" alt="Tiny World Thumbnail" class="img-fluid" style="max-height: 300px;" />
+            </div>
+
+            <!-- Summary -->
+            <p class="card-text mt-3" style="text-align: center;">
+              Tiny World is a 3D arcade driving game developed in Unity (C#) that utilizes custom spherical physics to create a "small planet" gameplay loop. The project features a specialized player controller designed to handle vehicle movement and gravity on a continuously rotating, non-planar surface. A key technical component is the dynamic environmental progression system: as the player navigates the procedurally generated course avoiding obstacles, the game logic manages real-time asset substitution to seamlessly evolve the world's aesthetic and difficulty from a historic era into a futuristic cityscape based on survival duration.
+            </p>
+
+            <!-- Game (hidden initially) -->
+            <div id="game-container" style="width: 100%; height: 700px; overflow: hidden; display: none; margin-top: 20px;">
+              <iframe
+                id="game-frame"
+                src=""
+                width="100%"
+                height="100%"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+            </div>
+
+            <button id="toggle-game" class="btn btn-outline-dark mt-3">Play Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Placeholder empty state -->
+    <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
+        <p class="lead text-muted">More projects coming soon.</p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .shrink-card {
+    max-width: 500px;
+    transition: max-width 0.5s ease;
+  }
+
+  .expand-card {
+    max-width: 100%;
+    transition: max-width 0.5s ease;
+  }
+</style>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleButton = document.getElementById("toggle-game");
+    const gameContainer = document.getElementById("game-container");
+    const gameFrame = document.getElementById("game-frame");
+    const thumbnail = document.getElementById("game-thumbnail");
+    const gameCard = document.querySelector(".col-md-10");
+
+    let isPlaying = false;
+
+    function toggleGame() {
+      if (!isPlaying) {
+        gameFrame.src = "{% static 'portfolio/unity/TinyWorld/index.html' %}";
+        gameContainer.style.display = "block";
+        thumbnail.style.display = "none";
+        toggleButton.textContent = "Stop";
+        gameCard.classList.remove("shrink-card");
+        gameCard.classList.add("expand-card");
+      } else {
+        gameFrame.src = "";
+        gameContainer.style.display = "none";
+        thumbnail.style.display = "block";
+        toggleButton.textContent = "Play Now";
+        gameCard.classList.remove("expand-card");
+        gameCard.classList.add("shrink-card");
+      }
+      isPlaying = !isPlaying;
+    }
+
+    toggleButton.addEventListener("click", function(e) {
+      e.stopPropagation(); // Prevent card click from triggering
+      toggleGame();
+    });
+    thumbnail.addEventListener("click", function(e) {
+      e.stopPropagation(); // Prevent card click from triggering
+      toggleGame();
+    });
+    
+    // Make entire card clickable
+    const unityCard = document.getElementById("unity-card");
+    if (unityCard) {
+      unityCard.addEventListener("click", function(e) {
+        // Don't trigger if clicking on the button or thumbnail (they handle their own clicks)
+        if (e.target !== toggleButton && e.target !== thumbnail && !thumbnail.contains(e.target)) {
+          toggleGame();
+        }
+      });
+      
+      // Add hover effect
+      unityCard.addEventListener("mouseenter", function() {
+        this.style.transform = "translateY(-5px)";
+        this.style.boxShadow = "0 10px 25px rgba(0, 0, 0, 0.15)";
+      });
+      
+      unityCard.addEventListener("mouseleave", function() {
+        this.style.transform = "translateY(0)";
+        this.style.boxShadow = "";
+      });
+    }
+  });
+</script>
+
+
+{% endblock %}

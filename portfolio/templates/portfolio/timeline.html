@@ -1,0 +1,96 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+{% block title %}Timeline{% endblock %}
+
+{% block content %}
+<section class="hero-section timeline-hero text-white text-center d-flex align-items-center justify-content-center">
+    <div class="container z-1">
+      <h1 class="display-4 fw-bold" data-aos="zoom-in">Timeline</h1>
+      <p class="lead mt-3" data-aos="fade-up" data-aos-delay="200">
+        
+      </p>
+    </div>
+</section>
+
+<section class="timeline-section py-5 bg-dark text-light">
+    <div class="container">
+      <h2 class="text-center mb-5" data-aos="fade-up">Where I’ve Worked</h2>
+  
+      <div class="timeline">
+  
+        <!-- Timeline Entry -->
+        <div class="timeline-item left" data-aos="fade-up">
+            <div class="timeline-icon">
+              <i class="bi bi-wrench-adjustable-circle-fill"></i>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Delta Tech Ops</h4>
+              <span class="timeline-date">Summer 2025 - Fall 2025</span>
+              <p class="timeline-description">
+                I am currently spearheading the technical development for a joint Delta-Google initiative, building a Gemini-based system for proprietary customizations and delivering a React prototype that served as the primary design reference. Beyond software development, I focused on high-impact data solutions: I wrote SQL queries that identified $260,000 in potential cost savings by optimizing part sourcing and developed Python scripts to automate the parsing of over 5,000 technical assets.
+              </p>
+            </div>
+          </div>
+  
+        <!-- Another Entry -->
+        <div class="timeline-item right" data-aos="fade-up">
+            <div class="timeline-icon">
+              <i class="bi bi-cpu-fill"></i>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Biocircuit Technologies</h4>
+              <span class="timeline-date">Fall 2024 - Spring 2025</span>
+              <p class="timeline-description">
+                During my time at Biocircuit, I modernized critical infrastructure by replacing legacy C programs with a Rust-based file reader to parse voltage metadata. I also contributed to the frontend of a medical nerve testing application using React and developed a custom inventory management tool to streamline the distribution of Nerve Tape demo kits.
+              </p>
+            </div>
+          </div>          
+
+        <!-- Another Entry -->
+        <div class="timeline-item left" data-aos="fade-up">
+            <div class="timeline-icon">
+              <i class="bi bi-mortarboard-fill"></i>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Georgia Tech Student</h4>
+              <span class="timeline-date">Fall 2024 – Present</span>
+              <p class="timeline-description">
+                Began my undergraduate studies in Computer Science at Georgia Tech, focusing on software engineering, systems architecture, and hands-on project development across multiple domains.
+              </p>
+            </div>
+          </div>                    
+
+        <!-- Another Entry -->
+        <div class="timeline-item right" data-aos="fade-up">
+            <div class="timeline-icon">
+              <i class="bi bi-book"></i>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">St. Pius X High School</h4>
+              <span class="timeline-date">Fall 2020 – Spring 2024</span>
+              <p class="timeline-description">
+                Graduated with honors while actively participating in academic clubs, athletics, and leadership roles. Developed foundational programming and analytical skills during this time.
+              </p>
+            </div>
+          </div>                   
+
+        <!-- Another Entry -->
+        <div class="timeline-item left" data-aos="fade-up">
+            <div class="timeline-icon">
+              <i class="bi bi-droplet-half"></i>
+            </div>
+            <div class="timeline-content">
+              <h4 class="timeline-title">Venetian Pools</h4>
+              <span class="timeline-date">Summer 2018 – Summer 2024</span>
+              <p class="timeline-description">
+                Served as an Assistant Swim Coach, working with children ages 4–18. Led training sessions, organized meets, and supported swimmers in developing technique, discipline, and team spirit over multiple seasons.
+              </p>
+            </div>
+          </div>                   
+  
+        <!-- Add more items using .left / .right alternation -->
+      </div>
+    </div>
+  </section>
+  
+{% endblock %}
