@@ -48,8 +48,8 @@ def rust(request):
 def react(request):
     return render(request, 'portfolio/react.html')
 
-def python_scripts(request):
-    return render(request, 'portfolio/python.html')
+def writing(request):
+    return render(request, 'portfolio/writing.html')
 
 def cpp_projects(request):
     return render(request, 'portfolio/cpp.html')

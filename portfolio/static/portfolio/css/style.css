@@ -335,19 +335,144 @@ body {
     left: auto;
     right: -8px;
   }
+
+/* Consolidated Glass Card Style for All Page Headers (excluding index.html) */
+.hero-glass-card {
+  background: rgba(66, 80, 113, 0.3) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 191, 255, 0.15) !important;
+  padding: 3rem !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  position: relative !important;
+  z-index: 15 !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  width: 100% !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.hero-glass-card:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 191, 255, 0.4), 0 0 50px rgba(0, 191, 255, 0.2) !important;
+}
+
+/* Text styling to match home page */
+.hero-glass-card h1,
+.hero-glass-card .display-4,
+.hero-glass-card .display-5 {
+  background: linear-gradient(135deg, #00ffee 0%, #0066ff 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: bold !important;
+}
+
+.hero-glass-card p,
+.hero-glass-card .lead {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-align: center !important;
+}
+
+
+/* Writing Page Tabs Styling - High-Tech Glassmorphism */
+#writingTabs {
+  border-bottom: none !important;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  justify-content: center;
+}
+
+#writingTabs .nav-link {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600;
+  padding: 0.875rem 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 2rem !important;
+  background: rgba(66, 80, 113, 0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 191, 255, 0.1) !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+#writingTabs .nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+#writingTabs .nav-link:hover::before {
+  left: 100%;
+}
+
+#writingTabs .nav-link:hover {
+  color: rgba(255, 255, 255, 0.95) !important;
+  background: rgba(66, 80, 113, 0.35) !important;
+  border-color: rgba(0, 191, 255, 0.3) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 191, 255, 0.2) !important;
+  transform: translateY(-2px);
+}
+
+#writingTabs .nav-link.active {
+  background: linear-gradient(135deg, rgba(0, 238, 238, 0.25) 0%, rgba(0, 102, 255, 0.25) 100%) !important;
+  -webkit-background-clip: padding-box !important;
+  background-clip: padding-box !important;
+  border-color: rgba(0, 191, 255, 0.5) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 191, 255, 0.3), 0 0 40px rgba(0, 191, 255, 0.15) !important;
+  transform: translateY(-2px);
+  color: #fff !important;
+  text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+}
+
+#writingTabContent {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 191, 255, 0.1) !important;
+  padding: 3rem !important;
+  min-height: 300px;
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+
+#writingTabContent .lead {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+@media screen and (max-width: 768px) {
+  .hero-glass-card {
+    padding: 2rem 1.5rem !important;
+    max-width: 90% !important;
+  }
   
+  #writingTabs {
+    gap: 0.5rem;
+  }
   
+  #writingTabs .nav-link {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.875rem;
+    border-radius: 1.5rem !important;
+  }
   
-  
-
-
-
-
-
-
-
-
-
+  #writingTabContent {
+    padding: 2rem 1.5rem !important;
+    border-radius: 20px !important;
+  }
+}
 
 
 

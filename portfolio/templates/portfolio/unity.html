@@ -6,10 +6,12 @@
 <!-- UNITY PROJECTS PAGE -->
 <section class="unity-hero text-white text-center d-flex align-items-center justify-content-center position-relative">
     <div class="z-1 position-relative">
-      <h1 class="display-5 fw-bold" data-aos="zoom-in">Unity Games</h1>
-      <p class="lead mt-3" data-aos="fade-up" data-aos-delay="200">
-        Explore games I've built using Unity — from prototypes to polished releases.
-      </p>
+      <div class="hero-glass-card" data-aos="fade-up" data-aos-delay="100">
+        <h1 class="display-5 fw-bold" data-aos="zoom-in">Games</h1>
+        <p class="lead mt-3" data-aos="fade-up" data-aos-delay="200">
+          Explore games I've built using Unity and React— from prototypes to polished releases.
+        </p>
+      </div>
     </div>
 </section>
   
@@ -18,7 +20,25 @@
   <div class="container">
     <h2 class="text-center mb-5" data-aos="fade-up">Projects</h2>
 
-    <!-- Example game card (add these later as needed) -->
+    <div class="row justify-content-center">
+      <!-- Kingdom Ruins Card -->
+      <div class="col-md-10 mb-4 shrink-card" data-aos="fade-up" data-aos-delay="100">
+        <a href="https://kingdom-ruins.vercel.app/" target="_blank" style="text-decoration: none; color: inherit;">
+          <div class="card shadow border-0" id="kingdom-card" style="cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+            <div class="card-body text-center">
+              <h5 class="card-title">Kingdom Ruins</h5>
+              <img src="{% static 'portfolio/img/kingdom_ruins.png' %}" alt="Kingdom Ruins" class="img-fluid mt-3 mb-3" style="max-height: 300px; width: auto; margin: 0 auto;">
+              <p class="card-text mt-3" style="text-align: center;">
+                A virtual recreation of my board game Kingdom Ruins, brought to life as an interactive digital experience. Kingdom Ruins is a strategic tabletop experience where players navigate the crumbling remnants of a once-great civilization, balancing the desperate need for resource management with the looming threat of total collapse. You aren't just building a kingdom; you're trying to sustain one against the encroaching decay, forcing you to make tough tactical calls on whether to reinforce your defenses or scavenge for lost relics. The gameplay feels both urgent and methodical, capturing that specific tension of trying to forge a legacy in a world that is actively trying to slide into history.
+              </p>
+              <span class="btn btn-outline-dark mt-3" style="pointer-events: none;">View Project</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tiny World game card -->
     <div id="game-card" class="row justify-content-center">
       <div class="col-md-10 mb-4 shrink-card" data-aos="fade-up" data-aos-delay="100">
         <div class="card shadow" id="unity-card" style="cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;">
@@ -129,6 +149,20 @@
       });
       
       unityCard.addEventListener("mouseleave", function() {
+        this.style.transform = "translateY(0)";
+        this.style.boxShadow = "";
+      });
+    }
+    
+    // Add hover effect for Kingdom Ruins card
+    const kingdomCard = document.getElementById("kingdom-card");
+    if (kingdomCard) {
+      kingdomCard.addEventListener("mouseenter", function() {
+        this.style.transform = "translateY(-5px)";
+        this.style.boxShadow = "0 10px 25px rgba(0, 0, 0, 0.15)";
+      });
+      
+      kingdomCard.addEventListener("mouseleave", function() {
         this.style.transform = "translateY(0)";
         this.style.boxShadow = "";
       });
