@@ -12,21 +12,25 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load local environment variables from .env
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-cxd!#^vh6$1fw3($v_y%#mjmu%bel9rv4#i7t&nk(iw@8#=fq+'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-cxd!#^vh6$1fw3($v_y%#mjmu%bel9rv4#i7t&nk(iw@8#=fq+')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -132,14 +136,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'jfjelstul1@gmail.com'
-EMAIL_HOST_PASSWORD = 'bpbf eqdf accv tefo'  # Use an app password, not your Gmail password
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'jfjelstul1@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'bpbf eqdf accv tefo')
 
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-CONTACT_EMAIL = 'jfjelstul1@gmail.com'  # Or wherever you want to receive messages
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
+CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'jfjelstul1@gmail.com')
 
 # Ollama on your PC (use PC hostname, local IP, or tunnel URL)
 OLLAMA_CHAT_URL = os.environ.get("OLLAMA_CHAT_URL", "https://ai.jfjelstul.org/api/chat")
@@ -148,8 +152,6 @@ OLLAMA_SYSTEM_MESSAGE = os.environ.get(
     "You are a helpful assistant for Jake's portfolio.",
 )
 
-# Production settings (uncomment for deployment)
-# DEBUG = False
-# ALLOWED_HOSTS = ['jfjelstul.pythonanywhere.com']
+# Production settings (configured dynamically via environment variables)
 
 
