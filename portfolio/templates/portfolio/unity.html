@@ -108,7 +108,6 @@
   document.addEventListener("DOMContentLoaded", function () {
     const toggleButton = document.getElementById("toggle-game");
     const gameContainer = document.getElementById("game-container");
-    const gameFrame = document.getElementById("game-frame");
     const thumbnail = document.getElementById("game-thumbnail");
     const gameCard = document.querySelector(".col-md-10");
 
@@ -116,14 +115,25 @@
 
     function toggleGame() {
       if (!isPlaying) {
-        gameFrame.src = "{% static 'portfolio/unity/TinyWorld/index.html' %}";
+        // Create the iframe dynamically to load the game
+        const iframe = document.createElement("iframe");
+        iframe.id = "game-frame";
+        iframe.src = "{% static 'portfolio/unity/TinyWorld/index.html' %}";
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "0";
+        iframe.setAttribute("allowfullscreen", "");
+
+        gameContainer.innerHTML = "";
+        gameContainer.appendChild(iframe);
         gameContainer.style.display = "block";
         thumbnail.style.display = "none";
         toggleButton.textContent = "Stop";
         gameCard.classList.remove("shrink-card");
         gameCard.classList.add("expand-card");
       } else {
-        gameFrame.src = "";
+        // Remove the iframe completely from the DOM to release WebGL contexts and WebAssembly memory
+        gameContainer.innerHTML = "";
         gameContainer.style.display = "none";
         thumbnail.style.display = "block";
         toggleButton.textContent = "Play Now";
