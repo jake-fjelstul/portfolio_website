@@ -141,6 +141,13 @@ EMAIL_HOST_PASSWORD = 'bpbf eqdf accv tefo'  # Use an app password, not your Gma
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 CONTACT_EMAIL = 'jfjelstul1@gmail.com'  # Or wherever you want to receive messages
 
+# Ollama on your PC (use PC hostname, local IP, or tunnel URL)
+OLLAMA_CHAT_URL = os.environ.get("OLLAMA_CHAT_URL", "https://ai.jfjelstul.org/api/chat")
+OLLAMA_SYSTEM_MESSAGE = os.environ.get(
+    "OLLAMA_SYSTEM_MESSAGE",
+    "You are a helpful assistant for Jake's portfolio.",
+)
+
 # Production settings (uncomment for deployment)
 # DEBUG = False
 # ALLOWED_HOSTS = ['jfjelstul.pythonanywhere.com']

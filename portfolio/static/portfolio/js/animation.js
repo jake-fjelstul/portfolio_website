@@ -1,44 +1,59 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Check WebGL support
+    function hasWebGL() {
+        try {
+            const canvas = document.createElement('canvas');
+            return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+        } catch (e) {
+            return false;
+        }
+    }
+
+    if (!hasWebGL()) {
+        document.body.classList.add('no-webgl');
+        return; // Skip Vanta initialization
+    }
+
     const homeHero = document.querySelector(".hero-section:not([class*='-hero'])");
     if (homeHero && typeof VANTA !== "undefined" && VANTA.WAVES) {
-      VANTA.WAVES({
-        el: ".hero-section",
-        mouseControls: true,
-        touchControls: true,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 2.0,
-        scaleMobile: 1.0,
-        color: 0x1f3b5c, //Blue:0x1f3b5c, Gray:0x222222
-        backgroundColor: 0x0a0a0a, //Blue:0x0a0a0a, Gray:0x1a1a1a
-        shininess: 100.0,
-        waveHeight: 20.0,
-        waveSpeed: 1.2,
-        zoom: 1.0
-      });
+        VANTA.WAVES({
+            el: ".hero-section",
+            mouseControls: true,
+            touchControls: true,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 2.0,
+            scaleMobile: 1.0,
+            color: 0x1f3b5c, //Blue:0x1f3b5c, Gray:0x222222
+            backgroundColor: 0x0a0a0a, //Blue:0x0a0a0a, Gray:0x1a1a1a
+            shininess: 100.0,
+            waveHeight: 20.0,
+            waveSpeed: 1.2,
+            zoom: 1.0
+        });
     }
 
     const unityHero = document.querySelector(".unity-hero");
     if (unityHero && typeof VANTA !== "undefined" && VANTA.NET) {
-      VANTA.NET({
-        el: unityHero,
-        mouseControls: true,
-        touchControls: true,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.0,
-        scaleMobile: 1.0,
-        color: 0x00ffee,
-        backgroundColor: 0x121212,
-        points: 12.0,
-        maxDistance: 19.0,
-        spacing: 15.0
-      });
+        VANTA.NET({
+            el: unityHero,
+            mouseControls: true,
+            touchControls: true,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.0,
+            scaleMobile: 1.0,
+            color: 0x00ffee,
+            backgroundColor: 0x121212,
+            points: 12.0,
+            maxDistance: 19.0,
+            spacing: 15.0
+        });
     }
 
     //Cpp
     const cppHero = document.querySelector(".cpp-hero");
-        if (cppHero && typeof VANTA !== "undefined" && VANTA.NET) {
+    if (cppHero && typeof VANTA !== "undefined" && VANTA.NET) {
         VANTA.NET({
             el: cppHero,
             mouseControls: true,
@@ -55,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //timeline
     const timelineHero = document.querySelector(".timeline-hero");
-        if (timelineHero && typeof VANTA !== "undefined" && VANTA.NET) {
+    if (timelineHero && typeof VANTA !== "undefined" && VANTA.NET) {
         VANTA.NET({
             el: timelineHero,
             mouseControls: true,
@@ -191,8 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-  
-  
-  
-  
+
+
+
+
 

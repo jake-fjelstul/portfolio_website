@@ -3,37 +3,41 @@
 {% block title %}Django Projects{% endblock %}
 {% block content %}
 <section class="hero-section django-hero text-white text-center d-flex align-items-center justify-content-center">
-    <div class="container z-1">
-        <h1 class="display-4 fw-bold" data-aos="zoom-in">Django Projects</h1>
-        <p class="lead mt-3" data-aos="fade-up" data-aos-delay="200">
-            Full-stack web apps with Python and the Django framework.
-        </p>
+  <div class="container z-1">
+    <h1 class="display-4 fw-bold" data-aos="zoom-in">Django Projects</h1>
+    <p class="lead mt-3" data-aos="fade-up" data-aos-delay="200">
+      Full-stack web apps with Python and the Django framework.
+    </p>
   </div>
 </section>
 
 <!-- PROJECT SECTION -->
 <section class="bg-light text-dark py-5">
-    <div class="container">
-      <h2 class="text-center mb-5" data-aos="fade-up">Projects</h2>
-  
-      <div class="row justify-content-center">
-        <!-- Portfolio Website Card -->
-        <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="card h-100 shadow border-0">
-            <div class="card-body d-flex flex-column text-center">
-              <h5 class="card-title">Portfolio Website</h5>
-              <img src="{% static 'portfolio/img/portfolio-website.png' %}" alt="Portfolio Website" style="object-fit: cover; height: 200px; width: 100%; margin-bottom: 1rem;">
-              <p class="card-text">This portfolio website was built using Django 5.0, featuring a dynamic contact form with email integration, static file management with WhiteNoise, and a modular template system. The site showcases projects across multiple technologies with animated backgrounds and interactive 3D city navigation.</p>
-              <a href="/" class="btn btn-outline-dark mt-auto">View Website</a>
-            </div>
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="fade-up">Projects</h2>
+
+    <div class="row justify-content-center">
+      <!-- Portfolio Website Card -->
+      <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card h-100 shadow border-0">
+          <div class="card-body d-flex flex-column text-center">
+            <h5 class="card-title">Portfolio Website</h5>
+            <img src="{% static 'portfolio/img/portfolio-website.png' %}" alt="Portfolio Website"
+              style="object-fit: cover; height: 200px; width: 100%; margin-bottom: 1rem;">
+            <p class="card-text">This portfolio website was built using Django 5.0, featuring a dynamic contact form
+              with email integration, static file management with WhiteNoise, and a modular template system. The site
+              showcases projects across multiple technologies with animated backgrounds and interactive 3D city
+              navigation.</p>
+            <a href="/" class="btn btn-outline-dark mt-auto">View Website</a>
           </div>
         </div>
-  
-        <!-- Placeholder empty state -->
-        <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
-          <p class="lead text-muted">More projects coming soon.</p>
-        </div>
+      </div>
+
+      <!-- Placeholder empty state -->
+      <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
+        <p class="lead text-muted">More projects coming soon.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 {% endblock %}

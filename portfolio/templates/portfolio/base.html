@@ -24,8 +24,9 @@
 
 
     <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
-    
+
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar p-3 navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
@@ -52,6 +53,10 @@
                 </ul>
             </div>
         </div>
+        <!-- Global Scroll Progress Bar -->
+        <div class="scroll-progress-container">
+            <div class="scroll-progress-bar" id="scrollProgress"></div>
+        </div>
     </nav>
 
     <main>
@@ -65,27 +70,49 @@
         AOS.init();
     </script>
     <script src="{% static 'portfolio/js/animation.js' %}"></script>
+
+    <!-- Navbar Scroll Progress Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('scrollProgress');
+            if (progressBar) {
+                let ticking = false;
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        window.requestAnimationFrame(() => {
+                            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                            progressBar.style.width = scrollPercent + '%';
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 <footer>
     <!-- CONNECT / RESUME SECTION -->
     <section class="footer-section bg-dark text-light">
         <div class="container text-center" data-aos="fade-up">
-        <h4 class="mb-4">Let's Connect</h4>
-    
-        <div class="social-links d-flex justify-content-center gap-4 mb-4">
-            <a href="https://github.com/jake-fjelstul" target="_blank" class="social-icon">
-            <i class="bi bi-github"></i>
+            <h4 class="mb-4">Let's Connect</h4>
+
+            <div class="social-links d-flex justify-content-center gap-4 mb-4">
+                <a href="https://github.com/jake-fjelstul" target="_blank" class="social-icon">
+                    <i class="bi bi-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/jake-fjelstul" target="_blank" class="social-icon">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+            </div>
+
+            <a href="{% static 'portfolio/files/resume.pdf' %}" download class="btn btn-outline-info">
+                <i class="bi bi-download me-2"></i> Download My Resume
             </a>
-            <a href="https://linkedin.com/in/jake-fjelstul" target="_blank" class="social-icon">
-            <i class="bi bi-linkedin"></i>
-            </a>
-        </div>
-    
-        <a href="{% static 'portfolio/files/resume.pdf' %}" download class="btn btn-outline-info">
-            <i class="bi bi-download me-2"></i> Download My Resume
-        </a>
         </div>
     </section>
 </footer>
-</html>
 
+</html>

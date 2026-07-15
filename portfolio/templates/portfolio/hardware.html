@@ -3,64 +3,160 @@
 {% block title %}Projects{% endblock %}
 
 {% block content %}
-<!-- HARDWARE HEADER -->
-<section class="hero-section django-hero text-white text-center d-flex align-items-center justify-content-center position-relative">
-    <div class="z-1 position-relative">
-      <div class="hero-glass-card" data-aos="fade-up" data-aos-delay="100">
-        <h1 class="display-4 fw-bold" data-aos="zoom-in">Hardware</h1>
-        <p class="lead mt-3" data-aos="fade-up" data-aos-delay="200">
-          A showcase of my most notable work using Arduino and Raspberry Pi, CAD Software, and 3D Printing.
-        </p>
-      </div>
-    </div>
-  </section>
-  
+<!-- HARDWARE HEADER (3D Room) -->
+<section class="hero-section room-hero hardware-room-hero text-white overflow-hidden position-relative">
+  <!-- 3D Room Wrapper -->
+  <div class="room-wrapper hardware-room-wrapper">
+    <!-- 3D Room Container -->
+    <div class="room">
+      <!-- 3D Walls -->
+      <div class="wall wall-back hardware-wall-back"></div>
+      <div class="wall wall-left hardware-wall-side"></div>
+      <div class="wall wall-right hardware-wall-side"></div>
+      <div class="wall wall-top hardware-wall-side"></div>
+      <div class="wall wall-bottom hardware-wall-side"></div>
 
-<!-- PROJECT SECTION -->
-<section class="bg-light text-dark py-5">
-    <div class="container">
-      <h2 class="text-center mb-5" data-aos="fade-up">Hardware Projects</h2>
-  
-      <div class="row justify-content-center">
-        <!-- Desk Assistant Card -->
-        <div class="col-12 col-md-10 col-lg-8 mb-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="card h-100 shadow border-0">
-            <div class="card-body d-flex flex-column text-center">
-              <h5 class="card-title">Desk Assistant</h5>
-              
-              <!-- Project Image -->
-              <img src="{% static 'portfolio/img/desk-assistant.png' %}" alt="Desk Assistant" class="img-fluid mt-3 mb-3" style="max-height: 400px; width: auto; margin: 0 auto;">
-              
-              <!-- Description Summary -->
-              <p class="card-text mt-3" style="text-align: center; max-width: 80%; margin: 1rem auto; padding: 0 1rem;">
-                I designed and prototyped a modular Desk Assistant using Arduino hardware and custom 3D-printed components to enhance workspace productivity. The system features an LCD menu interface for tracking focus timers and break intervals , integrated with a robotic arm that utilizes ultrasonic sensors to enable gesture-controlled lighting. I housed these electronics in a custom enclosure with a built-in wire management base. The project was designed in two phases so I am currently working on designing the system to run on a single unified microcontroller.
-              </p>
-              
-              <!-- Video -->
-              <div class="mt-4 mb-3">
-                <video controls style="max-width: 60%; height: auto; margin: 0 auto; display: block;">
-                  <source src="{% static 'portfolio/video/desk-assistant.mp4' %}" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-              
-              <!-- PDF Documentation -->
-              <div class="mt-3">
-                <a href="{% static 'portfolio/files/Desk_Assistant_Documentation.pdf' %}" download class="btn btn-outline-dark">
-                  <i class="bi bi-file-pdf me-2"></i> Download Documentation (PDF)
-                </a>
+      <!-- Simple Workbench: Floor Desk & Holographic Microchip -->
+      <div class="workbench-floor hardware-floor">
+        <div class="desk-grid hardware-desk-grid"></div>
+        <div class="hologram-emitter hardware-emitter">
+          <div class="emitter-ring ring-1 hardware-ring"></div>
+          <div class="emitter-ring ring-2 hardware-ring"></div>
+          <div class="emitter-light-ray hardware-ray"></div>
+          <div class="hologram-project">
+            <div class="holo-cube-container">
+              <!-- Holographic Microprocessor Chip -->
+              <div class="holo-chip">
+                <div class="holo-chip-body">CPU</div>
+                <div class="holo-chip-pin pin-left-1"></div>
+                <div class="holo-chip-pin pin-left-2"></div>
+                <div class="holo-chip-pin pin-right-1"></div>
+                <div class="holo-chip-pin pin-right-2"></div>
               </div>
             </div>
           </div>
         </div>
-  
-        <!-- Placeholder empty state -->
-        <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
-          <p class="lead text-muted">More projects coming soon.</p>
+      </div>
+
+      <!-- Floating Content -->
+      <div class="room-content">
+        <div class="hero-glass-card" data-aos="fade-up" data-aos-delay="100">
+          <h1 class="display-4 fw-bold text-center" data-aos="zoom-in">Hardware</h1>
+          <p class="lead mt-3 text-center" data-aos="fade-up" data-aos-delay="200">
+            A showcase of my most notable work using Arduino and Raspberry Pi, CAD Software, and 3D Printing.
+          </p>
         </div>
       </div>
     </div>
-  </section>
-  
-{% endblock %}
+  </div>
+</section>
 
+
+<!-- PROJECT SECTION -->
+<section class="bg-light text-dark py-5">
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="fade-up">Hardware Projects</h2>
+
+    <div class="row justify-content-center">
+      <!-- Desk Assistant Card -->
+      <div class="col-12 col-md-10 col-lg-8 mb-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card h-100 shadow border-0">
+          <div class="card-body d-flex flex-column text-center">
+            <h5 class="card-title">Desk Assistant</h5>
+
+            <!-- Project Image -->
+            <img src="{% static 'portfolio/img/desk-assistant.png' %}" alt="Desk Assistant" class="img-fluid mt-3 mb-3"
+              style="max-height: 400px; width: auto; margin: 0 auto;">
+
+            <!-- Description Summary -->
+            <p class="card-text mt-3" style="text-align: center; max-width: 80%; margin: 1rem auto; padding: 0 1rem;">
+              I designed and prototyped a modular Desk Assistant using Arduino hardware and custom 3D-printed components
+              to enhance workspace productivity. The system features an LCD menu interface for tracking focus timers and
+              break intervals , integrated with a robotic arm that utilizes ultrasonic sensors to enable
+              gesture-controlled lighting. I housed these electronics in a custom enclosure with a built-in wire
+              management base. The project was designed in two phases so I am currently working on designing the system
+              to run on a single unified microcontroller.
+            </p>
+
+            <!-- Video -->
+            <div class="mt-4 mb-3">
+              <video controls style="max-width: 60%; height: auto; margin: 0 auto; display: block;">
+                <source src="{% static 'portfolio/video/desk-assistant.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <!-- PDF Documentation -->
+            <div class="mt-3">
+              <a href="{% static 'portfolio/files/Desk_Assistant_Documentation.pdf' %}" download
+                class="btn btn-outline-dark">
+                <i class="bi bi-file-pdf me-2"></i> Download Documentation (PDF)
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder empty state -->
+      <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
+        <p class="lead text-muted">More projects coming soon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const heroSection = document.querySelector('.hardware-room-hero');
+    const room = heroSection ? heroSection.querySelector('.room') : null;
+
+    if (heroSection && room) {
+      let targetX = 0;
+      let targetY = 0;
+      let currentX = 0;
+      let currentY = 0;
+      const ease = 0.08;
+      let lastMouseMoveTime = 0;
+
+      function isMobile() {
+        return window.innerWidth <= 768;
+      }
+
+      heroSection.addEventListener('mousemove', (e) => {
+        lastMouseMoveTime = performance.now();
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const x = (e.clientX - width / 2) / (width / 2);
+        const y = (e.clientY - height / 2) / (height / 2);
+
+        targetY = x * 15;
+        targetX = -y * 12;
+      });
+
+      heroSection.addEventListener('mouseleave', () => {
+        targetX = 0;
+        targetY = 0;
+      });
+
+      function updateRoomRotation() {
+        const now = performance.now();
+        const idleTime = now - lastMouseMoveTime;
+
+        if (isMobile() || idleTime > 3000) {
+          const swayX = Math.sin(now * 0.001) * 3;
+          const swayY = Math.cos(now * 0.0008) * 4;
+          currentX += (swayX - currentX) * 0.02;
+          currentY += (swayY - currentY) * 0.02;
+        } else {
+          currentX += (targetX - currentX) * ease;
+          currentY += (targetY - currentY) * ease;
+        }
+
+        room.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+        requestAnimationFrame(updateRoomRotation);
+      }
+      requestAnimationFrame(updateRoomRotation);
+    }
+  });
+</script>
+{% endblock %}

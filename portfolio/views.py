@@ -1,9 +1,18 @@
+import json
+import logging
+import requests
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 from .forms import ContactForm
+
+OLLAMA_CHAT_URL = getattr(
+    settings, "OLLAMA_CHAT_URL", "https://ai.jfjelstul.org/api/chat"
+)
+OLLAMA_TIMEOUT = 10
 
 def index(request):
     if request.method == 'POST':
@@ -59,6 +68,47 @@ def java_projects(request):
 
 def ai_page(request):
     return render(request, 'portfolio/ai.html')
+
+
+@require_http_methods(["POST"])
+def ai_chat_view(request):
+    try:
+        data = json.loads(request.body)
+        user_message = data.get("message", "").strip()
+    except (json.JSONDecodeError, TypeError):
+        return JsonResponse({"reply": "Invalid request."}, status=400)
+
+    if not user_message:
+        return JsonResponse({"reply": "No message provided."}, status=400)
+
+    system_message = getattr(settings, "OLLAMA_SYSTEM_MESSAGE", "")
+    messages = []
+    if system_message:
+        messages.append({"role": "system", "content": system_message})
+    messages.append({"role": "user", "content": user_message})
+
+    payload = {
+        "model": "llama2:latest",
+        "stream": False,
+        "messages": messages,
+    }
+
+    try:
+        r = requests.post(
+            OLLAMA_CHAT_URL,
+            json=payload,
+            timeout=OLLAMA_TIMEOUT,
+        )
+        r.raise_for_status()
+        body = r.json()
+        reply = (body.get("message") or {}).get("content", "No response.")
+        return JsonResponse({"reply": reply})
+    except (requests.RequestException, ValueError, KeyError):
+        logging.exception("Ollama chat request failed")
+        return JsonResponse({
+            "reply": "The server is not running right now. Jake's PC might be off!"
+        })
+
 
 def city(request):
     return render(request, 'portfolio/city.html')

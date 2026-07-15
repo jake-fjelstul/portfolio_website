@@ -12,6 +12,7 @@ urlpatterns = [
     path('cpp/', views.cpp_projects, name='cpp'),
     path('java/', views.java_projects, name='java'),
     path('ai/', views.ai_page, name='ai'),
+    path('ai/chat/', views.ai_chat_view, name='ai_chat'),
     path('city/', views.city, name='city'),
     path('hardware/', views.hardware, name='hardware'),
 ]
