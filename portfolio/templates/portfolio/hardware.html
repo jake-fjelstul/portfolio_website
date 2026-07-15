@@ -115,12 +115,21 @@
       let targetY = 0;
       let currentX = 0;
       let currentY = 0;
-      const ease = 0.08;
+      const ease = 0.05; // Slightly lower value for heavier, smoother momentum
       let lastMouseMoveTime = 0;
+      let scrollTiltX = 0;
 
       function isMobile() {
         return window.innerWidth <= 768;
       }
+
+      // Track scroll position to tilt the room physically as the page scrolls
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const heroHeight = heroSection.offsetHeight || window.innerHeight;
+        const progress = Math.min(scrollY / heroHeight, 1);
+        scrollTiltX = progress * -3.0; // Gently tilts up to 3 degrees down as you scroll past
+      }, { passive: true });
 
       heroSection.addEventListener('mousemove', (e) => {
         lastMouseMoveTime = performance.now();
@@ -129,8 +138,13 @@
         const x = (e.clientX - width / 2) / (width / 2);
         const y = (e.clientY - height / 2) / (height / 2);
 
-        targetY = x * 15;
-        targetX = -y * 12;
+        // Apply cubic scaling to create a dead zone in the center (non-linear scaling)
+        const xCubed = Math.pow(x, 3);
+        const yCubed = Math.pow(y, 3);
+
+        // Limit the rotations for a premium, subtle depth feel
+        targetY = xCubed * 4.5;   // Rotation around Y-axis (left/right)
+        targetX = -yCubed * 3.5;  // Rotation around X-axis (up/down)
       });
 
       heroSection.addEventListener('mouseleave', () => {
@@ -143,16 +157,19 @@
         const idleTime = now - lastMouseMoveTime;
 
         if (isMobile() || idleTime > 3000) {
-          const swayX = Math.sin(now * 0.001) * 3;
-          const swayY = Math.cos(now * 0.0008) * 4;
+          // Extremely slow, subtle breathing motion (amplitude < 0.6 degrees, ~20s period)
+          const swayX = Math.sin(now * 0.0003) * 0.4;
+          const swayY = Math.cos(now * 0.00025) * 0.5;
           currentX += (swayX - currentX) * 0.02;
           currentY += (swayY - currentY) * 0.02;
         } else {
+          // Track mouse movements smoothly
           currentX += (targetX - currentX) * ease;
           currentY += (targetY - currentY) * ease;
         }
 
-        room.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+        // Combine active cursor/breathing rotation with the scroll-based tilt
+        room.style.transform = `rotateX(${currentX + scrollTiltX}deg) rotateY(${currentY}deg)`;
         requestAnimationFrame(updateRoomRotation);
       }
       requestAnimationFrame(updateRoomRotation);

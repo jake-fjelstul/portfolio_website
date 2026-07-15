@@ -1968,25 +1968,126 @@ animation: statusPulse 2.5s infinite ease-in-out;
 .no-webgl .hardware-room-hero {
   background: radial-gradient(circle at center, rgba(20, 10, 0, 0.45) 0%, #0f0a05 100%), url('/static/portfolio/img/tech_net_fallback.png') no-repeat center center !important;
   background-size: cover !important;
-}
-
-display: flex !important;
-align-items: center !important;
-justify-content: center !important;
-z-index: 10 !important;
-}
-
-.no-webgl .room-hero {
-  background: radial-gradient(circle at center, rgba(5, 14, 20, 0.45) 0%, #020a0e 100%), url('/static/portfolio/img/tech_wave_fallback.png') no-repeat center center !important;
-  background-size: cover !important;
-}
-
-.no-webgl .hardware-room-hero {
-  background: radial-gradient(circle at center, rgba(20, 10, 0, 0.45) 0%, #0f0a05 100%), url('/static/portfolio/img/tech_net_fallback.png') no-repeat center center !important;
-  background-size: cover !important;
-}
-
-.no-webgl .timeline-hero {
+}.no-webgl .timeline-hero {
   background: radial-gradient(circle at center, rgba(13, 13, 13, 0.4) 0%, #0a0a0a 100%), url('/static/portfolio/img/tech_net_fallback.png') no-repeat center center !important;
   background-size: cover !important;
+}
+
+/* ==========================================
+   macOS Folder UI Icons
+   ========================================== */
+
+/* The link container */
+.mac-folder-link {
+  transition: transform 0.2s ease;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Wrapper to maintain consistent size & spacing */
+.mac-folder-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  border-radius: 12px;
+  background-color: transparent;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  height: 100%;
+}
+
+.mac-folder-wrapper:hover {
+  transform: translateY(-8px) scale(1.05);
+  background-color: rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Folder structure */
+.mac-folder {
+  position: relative;
+  width: 130px;
+  height: 95px;
+  margin: 0 auto;
+}
+
+/* Folder Back Flap */
+.folder-back {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+/* Folder Tab on Back Flap */
+.folder-tab {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  width: 42px;
+  height: 14px;
+  background: #2563eb;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  transform: skewX(-12deg);
+}
+
+/* Folder Front Flap (Centered stamp container) */
+.folder-front {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  border-radius: 8px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Embossed Stamp/Icon on Front Flap */
+.folder-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(0 1.5px 2px rgba(0, 0, 0, 0.22));
+  transition: transform 0.2s, color 0.2s;
+}
+
+/* Folder Title/Label underneath */
+.mac-folder-label {
+  text-align: center;
+  pointer-events: none;
+}
+
+.folder-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2c3e50;
+  transition: color 0.2s ease;
+}
+
+.folder-subtitle {
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  display: block;
+  margin-top: 2px;
+}
+
+.mac-folder-wrapper:hover .folder-title {
+  color: #2563eb;
 }
