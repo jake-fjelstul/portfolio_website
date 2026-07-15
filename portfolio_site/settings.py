@@ -32,6 +32,12 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
+# Automatically allow Vercel domains when deployed on Vercel
+if os.environ.get('VERCEL') == '1':
+    ALLOWED_HOSTS.append('.vercel.app')
+    ALLOWED_HOSTS.append('.now.sh')
+
+
 
 # Application definition
 
