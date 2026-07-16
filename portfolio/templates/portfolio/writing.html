@@ -38,13 +38,19 @@
         </ul>
 
         <!-- Tab Content -->
-        <div class="tab-content" id="writingTabContent" data-aos="fade-up" data-aos-delay="100">
+        <div data-aos="fade-up" data-aos-delay="100">
+          <div class="tab-content mac-3d-card" id="writingTabContent">
           <!-- Research Writing Tab -->
           <div class="tab-pane fade show active" id="research" role="tabpanel" aria-labelledby="research-tab">
-            <div class="row justify-content-center">
-              <div class="col-12 text-center mt-4">
-                <p class="lead text-muted">Research writing samples coming soon.</p>
-              </div>
+            <div class="text-center mt-3">
+              <h3 class="fw-bold mb-3 text-dark">Coffee Chats with Googlers</h3>
+              <p class="coffee-chat-intro text-muted">
+                As part of preparing for a software engineering career, I've been reaching out to engineers, architects, and leaders at Google to learn how they think about technology, careers, and what actually matters when you're starting out. Here's a summary of each conversation — who I spoke with, what we covered, and the advice that stuck with me.
+              </p>
+            </div>
+            
+            <div class="row" id="coffee-chats-grid">
+              <!-- Cards will be dynamically rendered here via JavaScript -->
             </div>
           </div>
 
@@ -56,10 +62,235 @@
               </div>
             </div>
           </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Coffee Chat Detail Modal -->
+<div class="modal fade" id="coffeeChatModal" tabindex="-1" role="dialog" aria-labelledby="coffeeChatModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content chat-modal-content">
+      <div class="modal-header chat-modal-header align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <img id="modalAvatar" src="" class="chat-modal-avatar" alt="">
+          <div>
+            <h4 class="modal-title fw-bold text-dark m-0" id="coffeeChatModalLabel"></h4>
+            <div id="modalRole" class="chat-card-role text-muted mt-1"></div>
+          </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body chat-modal-body">
+        <h5 class="chat-modal-section-title">About</h5>
+        <p id="modalAbout" class="chat-modal-paragraph"></p>
+        
+        <h5 class="chat-modal-section-title">What we talked about</h5>
+        <p id="modalTalkedAbout" class="chat-modal-paragraph"></p>
+        
+        <h5 class="chat-modal-section-title">Key takeaways</h5>
+        <ul id="modalTakeaways" class="chat-modal-takeaways-list">
+          <!-- Bullet points will be inserted dynamically -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Structured Coffee Chats data array
+  const coffeeChats = [
+    {
+      name: "Justin Taras",
+      role: "Customer Engineer, Google — Data & Analytics · Atlanta, GA",
+      teaser: "A data specialist at Google on asking \"why,\" the rise of AI agents, and the skills that transfer everywhere.",
+      about: "Justin is a Customer Engineer at Google specializing in data and analytics. He has spent his career in the big data space, helping enterprise and public sector customers design and build data-driven applications on Google Cloud. He's based in the Atlanta area and regularly writes about data engineering topics like Cloud Run, Dataproc, and serverless architectures.",
+      whatWeTalkedAbout: "We covered his career journey, how he handles the learning curve when moving between companies and roles, and how the industry-wide shift to AI has changed the way his team solves customer problems. I also asked him what he thinks college students should be focusing on right now.",
+      keyTakeaways: [
+        "Always ask why. When working with customers, understand why their solution was built the way it was before assuming you have a better approach. There's usually a reason behind the design.",
+        "A semantic layer is becoming the context layer for AI agents — it's what gives an AI the business context it needs to reason about data correctly.",
+        "AI is going to automate a lot of workflows and reduce the need for large, hand-built data pipelines. Use AI for everything — if there's an app you want, build it.",
+        "The public sector consistently runs behind the commercial sector on new technology because of budget constraints. Justin now spends most of his time on public sector work, which comes with its own set of challenges.",
+        "The fundamental skills are the same across the industry — they transfer between companies and roles more than people expect.",
+        "Public speaking is an essential skill for entering the industry. Being able to clearly explain a solution to a customer matters as much as building it."
+      ],
+      // PHOTO DROP-IN SPOT: Replace null with the path to the real photo (e.g. "/static/portfolio/img/coffee-chats/justin-taras.jpg")
+      image: "{% static 'portfolio/img/justin-taras.png' %}"
+    },
+    {
+      name: "Rajat Monga",
+      role: "Co-creator of TensorFlow · Founding member of Google Brain · Former CVP of AI Frameworks, Microsoft",
+      teaser: "One of the builders of modern AI on foundations, open source, and why learning still matters.",
+      about: "Rajat is one of the most influential engineers in modern AI. He was a founding member of the Google Brain team, where he co-created and led TensorFlow, Google's open-source machine learning framework. After a decade at Google he founded Inference.io, an AI-powered analytics startup, and later led AI frameworks and inference infrastructure as a Corporate Vice President at Microsoft. He studied Electrical Engineering at IIT Delhi.",
+      whatWeTalkedAbout: "We discussed how the AI landscape has shifted since AlexNet and the early Google Brain days, whether compute and data are still the core drivers of state-of-the-art models, the tradeoffs of open-sourcing AI, and what he thinks the next big shift will be. I also asked how his approach to problem solving has changed since the TensorFlow days and what advice he has for students entering the field.",
+      keyTakeaways: [
+        "Learn the foundations. A lot of new CS grads can build apps but don't understand what's happening underneath, and it shows. The tools are changing, but the need to actually understand things isn't.",
+        "Many of today's core problems and approaches are surprisingly similar to what Google Brain was doing in 2012 — and the algorithms that worked then were simple ones. Good data was key then and it's key now.",
+        "AI isn't hitting a ceiling. People said the same thing about machine learning years ago, and reinforcement learning is opening up new strategies right now.",
+        "Open source cuts both ways: it accelerates the field, but it also means groups duplicate each other's work and bad actors get access to powerful models. Google Brain was essentially the only team doing large-scale open source in 2012.",
+        "For problem solving, start by looking at what can be improved in what already exists.",
+        "Keep reading papers, and reach out to the people who write them. Most students never do this.",
+        "CS as a field isn't going away because of AI — the tools are just changing, and learning still matters as much as ever."
+      ],
+      // PHOTO DROP-IN SPOT: Replace null with the path to the real photo (e.g. "/static/portfolio/img/coffee-chats/rajat-monga.jpg")
+      image: "{% static 'portfolio/img/rajat-monga.png' %}"
+    },
+    {
+      name: "Prasanna Ankem",
+      role: "Principal Architect, Google Cloud · Atlanta, GA",
+      teaser: "A Google Cloud Principal Architect's tactical playbook for interviews, system design, and standing out.",
+      about: "Prasanna is a Principal Architect at Google Cloud with over two decades of experience in enterprise software. Before Google he was a Senior Solutions Architect at Assurant, where he led mission-critical engineering initiatives. At Google he works with large enterprise customers on cloud architecture, security, and generative AI adoption, and he's known for combining deep technical knowledge with strong business acumen.",
+      whatWeTalkedAbout: "This was the most tactical conversation of the group. We went deep on what separates interns who thrive from those who struggle, what kind of portfolio project makes a candidate stand out, how enterprise customers are actually deploying Gemini and generative AI in production, and how to prepare for Google's interview process over the next year.",
+      keyTakeaways: [
+        "Learn one programming language really, really well — depth beats breadth. Pair it with one relational database and one NoSQL database that you know deeply.",
+        "Know web development and always think in terms of the full stack, not just the layer you're working in.",
+        "His six-step process for coding interviews: understand the problem, define the inputs and outputs, write plain-English pseudocode, translate it into code, optimize, then test.",
+        "For system design, think about what components the system depends on when it actually runs: the external dependencies, the internal subcomponents, and how it all fits together.",
+        "Google's interviews evaluate role-related knowledge, cognitive ability, and Googleyness — expect scenario-based questions, not just coding.",
+        "A useful mental model for Google's data and AI stack: BigQuery is the library (where the information lives, driven by SQL), and Vertex AI is the laboratory (where experiments happen, driven by Python and notebooks).",
+        "Reach out to a lot of people on LinkedIn, and talk to professors about opportunities to write a research paper — both compound over time.",
+        "Tools like Gemini and NotebookLM are genuinely useful for studying and organizing what you're learning — take advantage of them."
+      ],
+      // PHOTO DROP-IN SPOT: Replace null with the path to the real photo (e.g. "/static/portfolio/img/coffee-chats/prasanna-ankem.jpg")
+      image: "{% static 'portfolio/img/prasanna-ankem.png' %}"
+    },
+    {
+      name: "Kelsey Hightower",
+      role: "Distinguished Engineer, Google Cloud (retired) · Kubernetes pioneer",
+      teaser: "The Kubernetes legend on knowing your tools, contributing to open source, and how a student actually gets noticed.",
+      about: "Kelsey is one of the best-known engineers in the cloud computing world. He spent years at Google Cloud, where he became a Distinguished Engineer and one of the most influential voices behind Kubernetes and modern infrastructure. He's famous for learning in public, teaching with memorable analogies, and co-authoring \"Kubernetes: Up and Running.\" He retired from Google in 2023 but remains an active voice in the developer community.",
+      whatWeTalkedAbout: "We talked about how he decides which new technologies are actually worth learning, what the modern cloud stack has made too complex, how the AI-first shift changes the work, and — most useful to me — concrete ways a college student can stand out to companies right now.",
+      keyTakeaways: [
+        "You don't need to build your own AI. The shift means fewer people are needed to do the same task — so the advantage goes to whoever knows the tools (like Claude Code) and uses them really well.",
+        "How to stand out: roll the dice. Go to every tech meetup you can and present — \"here's what my college is teaching, here's what I've been learning on my own, am I on the right track?\" People remember that.",
+        "Find out what technology a company actually uses, then show up already able to help. Delta uses Terraform — so learn Terraform, go to its GitHub, find open issues, recreate a bug, and contribute a fix.",
+        "The best contributions follow a simple pattern: \"it's broken, here's how I think it should work, and here's my implementation.\" That applies to infrastructure support and test automation too.",
+        "Open source is how you practice in the real world before anyone hires you — it's the closest thing to industry experience you can get on your own."
+      ],
+      // PHOTO DROP-IN SPOT: Replace null with the path to the real photo (e.g. "/static/portfolio/img/coffee-chats/kelsey-hightower.jpg")
+      image: "{% static 'portfolio/img/kelsey-hightower.png' %}"
+    }
+  ];
+
+  const placeholderSvg = "{% static 'portfolio/img/avatar-placeholder.svg' %}";
+  let activeTriggerButton = null;
+  let coffeeChatModal = null;
+
+  function renderCoffeeChats() {
+    const grid = document.getElementById('coffee-chats-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    
+    coffeeChats.forEach((chat, index) => {
+      const col = document.createElement('div');
+      col.className = 'col-md-6 mb-4';
+      col.setAttribute('data-aos', 'fade-up');
+      col.setAttribute('data-aos-delay', (index * 100).toString());
+      
+      const card = document.createElement('div');
+      card.className = 'card chat-card border-0 shadow-sm';
+      
+      const cardBody = document.createElement('div');
+      cardBody.className = 'card-body d-flex flex-column h-100 p-4';
+      
+      const header = document.createElement('div');
+      header.className = 'd-flex align-items-center gap-3';
+      
+      const avatar = document.createElement('img');
+      avatar.src = chat.image || placeholderSvg;
+      avatar.className = 'chat-card-avatar';
+      avatar.alt = chat.name;
+      
+      const details = document.createElement('div');
+      const name = document.createElement('h5');
+      name.className = 'chat-card-name m-0';
+      name.textContent = chat.name;
+      
+      const role = document.createElement('div');
+      role.className = 'chat-card-role mt-1';
+      role.textContent = chat.role;
+      
+      details.appendChild(name);
+      details.appendChild(role);
+      header.appendChild(avatar);
+      header.appendChild(details);
+      
+      const teaser = document.createElement('p');
+      teaser.className = 'chat-card-teaser flex-grow-1';
+      teaser.textContent = chat.teaser;
+      
+      const btnWrapper = document.createElement('div');
+      btnWrapper.className = 'mt-auto';
+      
+      const btn = document.createElement('button');
+      btn.className = 'chat-card-btn';
+      btn.setAttribute('aria-haspopup', 'dialog');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = 'Read conversation summary <i class="bi bi-arrow-right"></i>';
+      btn.onclick = (e) => {
+        openCoffeeChat(index, btn);
+      };
+      
+      btnWrapper.appendChild(btn);
+      cardBody.appendChild(header);
+      cardBody.appendChild(teaser);
+      cardBody.appendChild(btnWrapper);
+      card.appendChild(cardBody);
+      col.appendChild(card);
+      grid.appendChild(col);
+    });
+  }
+
+  function openCoffeeChat(index, buttonElement) {
+    const chat = coffeeChats[index];
+    if (!chat) return;
+    
+    activeTriggerButton = buttonElement;
+    if (activeTriggerButton) {
+      activeTriggerButton.setAttribute('aria-expanded', 'true');
+    }
+    
+    // Set text contents
+    document.getElementById('modalAvatar').src = chat.image || placeholderSvg;
+    document.getElementById('modalAvatar').alt = chat.name;
+    document.getElementById('coffeeChatModalLabel').innerText = chat.name;
+    document.getElementById('modalRole').innerText = chat.role;
+    document.getElementById('modalAbout').innerText = chat.about;
+    document.getElementById('modalTalkedAbout').innerText = chat.whatWeTalkedAbout;
+    
+    // Takeaways
+    const list = document.getElementById('modalTakeaways');
+    list.innerHTML = '';
+    chat.keyTakeaways.forEach(takeaway => {
+      const li = document.createElement('li');
+      li.innerText = takeaway;
+      list.appendChild(li);
+    });
+    
+    // Show modal
+    if (coffeeChatModal) {
+      coffeeChatModal.show();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalEl = document.getElementById('coffeeChatModal');
+    if (modalEl) {
+      coffeeChatModal = new bootstrap.Modal(modalEl);
+      
+      // Manage accessibility when closed
+      modalEl.addEventListener('hidden.bs.modal', function () {
+        if (activeTriggerButton) {
+          activeTriggerButton.setAttribute('aria-expanded', 'false');
+          activeTriggerButton.focus();
+        }
+      });
+    }
+    renderCoffeeChats();
+  });
+</script>
 
 {% endblock %}
