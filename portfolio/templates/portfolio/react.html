@@ -19,6 +19,27 @@
   <div class="container">
     <h2 class="text-center mb-5" data-aos="fade-up">Applications</h2>
 
+    <!-- Third Space Card Row -->
+    <div class="row justify-content-center">
+      <!-- Third Space Card -->
+      <div class="col-md-8 col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+        <a href="https://third-state.vercel.app/" target="_blank"
+          style="text-decoration: none; color: inherit;">
+          <div class="card h-100 mac-3d-card"
+            style="cursor: pointer;">
+            <div class="card-body d-flex flex-column text-center" style="padding: 2.5rem;">
+              <h5 class="card-title">Third Space</h5>
+              <img src="{% static 'portfolio/img/third-space.png' %}" alt="Third Space Dashboard"
+                class="img-fluid mt-3 mb-3" style="max-height: 350px; width: auto; margin: 0 auto; padding: 0 1rem;">
+              <p class="card-text"><br>Third Space is a social platform built to help people move their connections offline. It lets users schedule real-world meetups, join interest-based groups called Circles, and build genuine in-person relationships. Beyond the core social features, the app includes realtime chat, event RSVPs, a reward system, calendar integration, and even in-app games like chess and Connect Four for breaking the ice. Under the hood it's a React and Tailwind single-page app backed by a Postgres database with row-level security, realtime subscriptions, and serverless edge functions running the backend logic. The web app is also wrapped as a native iOS build for App Store distribution, with production features like OAuth, push notifications, and Sign in with Apple. I designed and built the whole product end to end, from the schema and backend to the frontend and native deployment.<br></p>
+              <span class="btn btn-outline-dark mt-auto" style="pointer-events: none;">View Project</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Finance App Card Row -->
     <div class="row justify-content-center">
       <!-- Finance App Card -->
       <div class="col-md-8 col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
@@ -48,8 +69,10 @@
           </div>
         </a>
       </div>
+    </div>
 
-      <!-- Placeholder empty state -->
+    <!-- Placeholder empty state -->
+    <div class="row justify-content-center">
       <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
         <p class="lead text-muted">More projects coming soon.</p>
       </div>
