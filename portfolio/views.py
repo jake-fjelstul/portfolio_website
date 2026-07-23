@@ -18,7 +18,12 @@ def index(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            contact = form.save()
+            import os
+            # SQLite on Vercel is read-only; construct instance in-memory without database write.
+            if os.environ.get('VERCEL') == '1' and settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3':
+                contact = form.save(commit=False)
+            else:
+                contact = form.save()
 
             # Send email to you
             subject = f"New message from {contact.name}"

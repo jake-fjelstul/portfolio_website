@@ -50,55 +50,312 @@
     </div>
   </div>
 </section>
+<!-- CUSTOM STYLES FOR APP ICONS AND INLINE CARDS -->
+<style>
+  .app-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3rem;
+  }
+  .app-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 160px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .app-icon-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 26px;
+    padding: 0;
+    background: transparent;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  }
+  .app-icon-label {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #212529;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  .app-icon-item:hover .app-icon-container,
+  .app-icon-item.active .app-icon-container {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 16px 32px rgba(6, 182, 212, 0.35), 0 0 15px rgba(6, 182, 212, 0.2);
+  }
+  .app-icon-item:hover .app-icon-label,
+  .app-icon-item.active .app-icon-label {
+    color: #06b6d4;
+  }
 
+  /* Inline Expandable/Collapse Card Transitions */
+  .project-details-container {
+    min-height: 0;
+    transition: all 0.4s ease;
+  }
+  .project-details-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .project-details-content.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .mac-3d-card-inline {
+    margin: 0 auto;
+    max-width: 800px;
+  }
+
+  /* Animated Robotics Icon styles */
+  .animated-robot-icon {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .robot-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Robotic Arm Animations */
+  @keyframes swingLower {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-5deg); }
+  }
+  .lower-arm-group {
+    animation: swingLower 5s ease-in-out infinite;
+    transform-origin: 60px 90px;
+  }
+
+  @keyframes swingUpper {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(12deg); }
+  }
+  .upper-arm-group {
+    animation: swingUpper 5s ease-in-out infinite;
+    transform-origin: 45px 55px;
+  }
+
+  @keyframes swingGripper {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-8deg); }
+  }
+  .gripper-group {
+    animation: swingGripper 5s ease-in-out infinite;
+    transform-origin: 75px 35px;
+  }
+
+  @keyframes squeezeClawL {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-8deg); }
+  }
+  @keyframes squeezeClawR {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(8deg); }
+  }
+  .claw-finger-left {
+    animation: squeezeClawL 2.5s ease-in-out infinite;
+    transform-origin: 75px 35px;
+  }
+  .claw-finger-right {
+    animation: squeezeClawR 2.5s ease-in-out infinite;
+    transform-origin: 75px 35px;
+  }
+
+  @keyframes sparklePulse {
+    0%, 100% { opacity: 0.4; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+  .work-sparkle {
+    animation: sparklePulse 1.5s infinite ease-in-out;
+    transform-origin: 88px 26px;
+  }
+
+  @keyframes flowLaser {
+    0% { stroke-dashoffset: 20; }
+    100% { stroke-dashoffset: 0; }
+  }
+  .laser-conduit {
+    stroke-dasharray: 8 4;
+    animation: flowLaser 1.5s linear infinite;
+  }
+
+  @keyframes armBasePulse {
+    0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 1px #22d3ee); }
+    50% { opacity: 1; filter: drop-shadow(0 0 6px #22d3ee) drop-shadow(0 0 10px #06b6d4); }
+  }
+  .base-led {
+    animation: armBasePulse 2s infinite ease-in-out;
+  }
+
+  /* Hover interactive elements */
+  .app-icon-item:hover .lower-arm-group {
+    animation-duration: 2s; /* moves faster when hovered */
+  }
+  .app-icon-item:hover .upper-arm-group {
+    animation-duration: 2s;
+  }
+  .app-icon-item:hover .laser-conduit {
+    stroke: #e0f2fe; /* glowing conduit lights up brighter */
+    animation-duration: 0.75s;
+  }
+  .app-icon-item:hover .work-sparkle {
+    fill: #a7f3d0;
+  }
+</style>
 
 <!-- PROJECT SECTION -->
 <section class="bg-light text-dark py-5">
   <div class="container">
     <h2 class="text-center mb-5" data-aos="fade-up">Hardware Projects</h2>
 
-    <div class="row justify-content-center">
+    <!-- App Icon Grid -->
+    <div class="app-grid py-4" data-aos="fade-up" data-aos-delay="100">
+      <!-- Desk Assistant Icon -->
+      <div class="app-icon-item" data-project="desk-assistant" onclick="toggleProject('desk-assistant')">
+        <div class="app-icon-container">
+          <!-- Animated Robotics Icon SVG -->
+          <div class="animated-robot-icon">
+            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="robot-svg">
+              <defs>
+                <linearGradient id="robotBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1e293b" />
+                  <stop offset="50%" stop-color="#0f172a" />
+                  <stop offset="100%" stop-color="#020617" />
+                </linearGradient>
+                <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#64748b" />
+                  <stop offset="50%" stop-color="#475569" />
+                  <stop offset="100%" stop-color="#334155" />
+                </linearGradient>
+                <linearGradient id="baseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#334155" />
+                  <stop offset="100%" stop-color="#0f172a" />
+                </linearGradient>
+                <filter id="neonGlowArm" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              
+              <!-- Blueprint grid lines -->
+              <path d="M 0,30 L 120,30 M 0,60 L 120,60 M 0,90 L 120,90 M 30,0 L 30,120 M 60,0 L 60,120 M 90,0 L 90,120" stroke="rgba(99, 102, 241, 0.08)" stroke-width="1" />
+              
+              <!-- Robot Arm Base / Chassis -->
+              <path d="M 30,105 L 90,105 L 82,90 L 38,90 Z" fill="url(#baseGrad)" stroke="#475569" stroke-width="2" />
+              <rect x="52" y="85" width="16" height="6" rx="2.5" fill="#1e293b" stroke="#334155" stroke-width="1" />
+              <circle cx="60" cy="88" r="2.5" fill="#22d3ee" class="base-led" />
+              
+              <!-- Robotic Arm Assembly -->
+              <g class="robotic-arm-assembly">
+                <!-- Lower arm group. Origin: 60,90 -->
+                <g class="lower-arm-group">
+                  <!-- Lower Arm Beam -->
+                  <line x1="60" y1="90" x2="45" y2="55" stroke="url(#metalGrad)" stroke-width="10" stroke-linecap="round" />
+                  <line x1="60" y1="90" x2="45" y2="55" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" filter="url(#neonGlowArm)" class="laser-conduit" />
+                  
+                  <!-- Shoulder Joint Cover -->
+                  <circle cx="60" cy="90" r="8" fill="#1e293b" stroke="#475569" stroke-width="2" />
+                  <circle cx="60" cy="90" r="3" fill="#06b6d4" />
+
+                  <!-- Upper arm group. Origin: 45,55 -->
+                  <g class="upper-arm-group">
+                    <!-- Upper Arm Beam -->
+                    <line x1="45" y1="55" x2="75" y2="35" stroke="url(#metalGrad)" stroke-width="7" stroke-linecap="round" />
+                    <line x1="45" y1="55" x2="75" y2="35" stroke="#818cf8" stroke-width="2" stroke-linecap="round" />
+                    
+                    <!-- Elbow Joint Cover -->
+                    <circle cx="45" cy="55" r="6" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
+                    <circle cx="45" cy="55" r="2" fill="#818cf8" />
+
+                    <!-- Gripper Claw group. Origin: 75,35 -->
+                    <g class="gripper-group">
+                      <!-- Wrist Joint Cover -->
+                      <circle cx="75" cy="35" r="3.5" fill="#1e293b" stroke="#475569" stroke-width="1" />
+                      
+                      <!-- Left Claw Finger -->
+                      <path d="M 75,35 Q 85,25 80,18" stroke="url(#metalGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" class="claw-finger-left" />
+                      <!-- Right Claw Finger -->
+                      <path d="M 75,35 Q 80,45 90,38" stroke="url(#metalGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" class="claw-finger-right" />
+                      
+                      <!-- Glowing energy sphere manipulated by arm -->
+                      <circle cx="88" cy="26" r="3.5" fill="#34d399" filter="url(#neonGlowArm)" class="work-sparkle" />
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="app-icon-label">Desk Assistant</div>
+      </div>
+    </div>
+
+    <!-- Project Details Display Area (Inline) -->
+    <div class="project-details-container mt-5">
       <!-- Desk Assistant Card -->
-      <div class="col-12 col-md-10 col-lg-8 mb-4" data-aos="fade-up" data-aos-delay="100">
-        <div class="card h-100 mac-3d-card">
-          <div class="card-body d-flex flex-column text-center">
-            <h5 class="card-title">Desk Assistant</h5>
+      <div id="project-desk-assistant" class="project-details-content">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-10 col-lg-8 mb-4">
+            <div class="card h-100 mac-3d-card mac-3d-card-inline">
+              <div class="card-body d-flex flex-column text-center" style="padding: 2.5rem;">
+                <h5 class="card-title">Desk Assistant</h5>
 
-            <!-- Project Image -->
-            <img src="{% static 'portfolio/img/desk-assistant.png' %}" alt="Desk Assistant" class="img-fluid mt-3 mb-3"
-              style="max-height: 400px; width: auto; margin: 0 auto;">
+                <!-- Project Image -->
+                <img src="{% static 'portfolio/img/desk-assistant.png' %}" alt="Desk Assistant" class="img-fluid mt-3 mb-3"
+                  style="max-height: 400px; width: auto; margin: 0 auto;">
 
-            <!-- Description Summary -->
-            <p class="card-text mt-3" style="text-align: center; max-width: 80%; margin: 1rem auto; padding: 0 1rem;">
-              I designed and prototyped a modular Desk Assistant using Arduino hardware and custom 3D-printed components
-              to enhance workspace productivity. The system features an LCD menu interface for tracking focus timers and
-              break intervals , integrated with a robotic arm that utilizes ultrasonic sensors to enable
-              gesture-controlled lighting. I housed these electronics in a custom enclosure with a built-in wire
-              management base. The project was designed in two phases so I am currently working on designing the system
-              to run on a single unified microcontroller.
-            </p>
+                <!-- Description Summary -->
+                <p class="card-text mt-3" style="text-align: center; max-width: 80%; margin: 1rem auto; padding: 0 1rem;">
+                  I designed and prototyped a modular Desk Assistant using Arduino hardware and custom 3D-printed components
+                  to enhance workspace productivity. The system features an LCD menu interface for tracking focus timers and
+                  break intervals , integrated with a robotic arm that utilizes ultrasonic sensors to enable
+                  gesture-controlled lighting. I housed these electronics in a custom enclosure with a built-in wire
+                  management base. The project was designed in two phases so I am currently working on designing the system
+                  to run on a single unified microcontroller.
+                </p>
 
-            <!-- Video -->
-            <div class="mt-4 mb-3">
-              <video controls style="max-width: 60%; height: auto; margin: 0 auto; display: block;">
-                <source src="{% static 'portfolio/video/desk-assistant.mp4' %}" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-            </div>
+                <!-- Video -->
+                <div class="mt-4 mb-3">
+                  <video controls style="max-width: 60%; height: auto; margin: 0 auto; display: block;">
+                    <source src="{% static 'portfolio/video/desk-assistant.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
 
-            <!-- PDF Documentation -->
-            <div class="mt-3">
-              <a href="{% static 'portfolio/files/Desk_Assistant_Documentation.pdf' %}" download
-                class="btn btn-outline-dark">
-                <i class="bi bi-file-pdf me-2"></i> Download Documentation (PDF)
-              </a>
+                <!-- PDF Documentation -->
+                <div class="mt-3">
+                  <a href="{% static 'portfolio/files/Desk_Assistant_Documentation.pdf' %}" download
+                    class="btn btn-outline-dark">
+                    <i class="bi bi-file-pdf me-2"></i> Download Documentation (PDF)
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Placeholder empty state -->
-      <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
+    <!-- Placeholder empty state -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="200">
         <p class="lead text-muted">More projects coming soon.</p>
       </div>
     </div>
@@ -106,6 +363,42 @@
 </section>
 
 <script>
+  let activeProjectId = null;
+
+  function toggleProject(id) {
+    const activeContent = document.getElementById('project-' + id);
+    const activeIcon = document.querySelector(`.app-icon-item[data-project="${id}"]`);
+    
+    // Hide all contents
+    const contents = document.querySelectorAll('.project-details-content');
+    contents.forEach(content => {
+      content.classList.remove('show');
+      content.style.display = 'none';
+    });
+    
+    // Deactivate all icons
+    const icons = document.querySelectorAll('.app-icon-item');
+    icons.forEach(icon => icon.classList.remove('active'));
+
+    if (activeProjectId === id) {
+      activeProjectId = null;
+    } else {
+      if (activeContent) {
+        activeContent.style.display = 'block';
+        // Force layout reflow
+        activeContent.offsetHeight;
+        activeContent.classList.add('show');
+        
+        // Scroll to card smoothly
+        activeContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      if (activeIcon) {
+        activeIcon.classList.add('active');
+      }
+      activeProjectId = id;
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     const heroSection = document.querySelector('.hardware-room-hero');
     const room = heroSection ? heroSection.querySelector('.room') : null;

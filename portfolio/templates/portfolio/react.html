@@ -14,69 +14,203 @@
   </div>
 </section>
 
+<!-- CUSTOM STYLES FOR APP ICONS AND INLINE CARDS -->
+<style>
+  .app-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3rem;
+  }
+  .app-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 160px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .app-icon-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 26px;
+    padding: 0;
+    background: transparent;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  }
+  .app-icon-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 26px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .app-icon-label {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #212529;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  .app-icon-item:hover .app-icon-container,
+  .app-icon-item.active .app-icon-container {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 16px 32px rgba(99, 102, 241, 0.35), 0 0 15px rgba(99, 102, 241, 0.2);
+  }
+  .app-icon-item:hover .app-icon-label,
+  .app-icon-item.active .app-icon-label {
+    color: #4f46e5;
+  }
+
+  /* Inline Expandable/Collapse Card Transitions */
+  .project-details-container {
+    min-height: 0;
+    transition: all 0.4s ease;
+  }
+  .project-details-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .project-details-content.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .mac-3d-card-inline {
+    margin: 0 auto;
+    max-width: 720px;
+  }
+</style>
+
 <!-- PROJECT SECTION -->
 <section class="bg-light text-dark py-5">
   <div class="container">
     <h2 class="text-center mb-5" data-aos="fade-up">Applications</h2>
 
-    <!-- Third Space Card Row -->
-    <div class="row justify-content-center">
-      <!-- Third Space Card -->
-      <div class="col-md-8 col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-        <a href="https://third-state.vercel.app/" target="_blank"
-          style="text-decoration: none; color: inherit;">
-          <div class="card h-100 mac-3d-card"
-            style="cursor: pointer;">
-            <div class="card-body d-flex flex-column text-center" style="padding: 2.5rem;">
-              <h5 class="card-title">Third Space</h5>
-              <img src="{% static 'portfolio/img/third-space.png' %}" alt="Third Space Dashboard"
-                class="img-fluid mt-3 mb-3" style="max-height: 350px; width: auto; margin: 0 auto; padding: 0 1rem;">
-              <p class="card-text"><br>Third Space is a social platform built to help people move their connections offline. It lets users schedule real-world meetups, join interest-based groups called Circles, and build genuine in-person relationships. Beyond the core social features, the app includes realtime chat, event RSVPs, a reward system, calendar integration, and even in-app games like chess and Connect Four for breaking the ice. Under the hood it's a React and Tailwind single-page app backed by a Postgres database with row-level security, realtime subscriptions, and serverless edge functions running the backend logic. The web app is also wrapped as a native iOS build for App Store distribution, with production features like OAuth, push notifications, and Sign in with Apple. I designed and built the whole product end to end, from the schema and backend to the frontend and native deployment.<br></p>
-              <span class="btn btn-outline-dark mt-auto" style="pointer-events: none;">View Project</span>
-            </div>
-          </div>
-        </a>
+    <!-- App Icon Grid -->
+    <div class="app-grid py-4" data-aos="fade-up" data-aos-delay="100">
+      <!-- Third Space Icon -->
+      <div class="app-icon-item" data-project="third-space" onclick="toggleProject('third-space')">
+        <div class="app-icon-container">
+          <img src="{% static 'portfolio/img/third-space-icon.png' %}" alt="Third Space Icon" class="app-icon-img">
+        </div>
+        <div class="app-icon-label">Third Space</div>
+      </div>
+
+      <!-- Finance App Icon -->
+      <div class="app-icon-item" data-project="finance-app" onclick="toggleProject('finance-app')">
+        <div class="app-icon-container">
+          <img src="{% static 'portfolio/img/finance-app-icon.png' %}" alt="Finance App Icon" class="app-icon-img">
+        </div>
+        <div class="app-icon-label">Finance App</div>
       </div>
     </div>
 
-    <!-- Finance App Card Row -->
-    <div class="row justify-content-center">
-      <!-- Finance App Card -->
-      <div class="col-md-8 col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-        <a href="https://financeapp-chi-seven.vercel.app/" target="_blank"
-          style="text-decoration: none; color: inherit;">
-          <div class="card h-100 mac-3d-card"
-            style="cursor: pointer;">
-            <div class="card-body d-flex flex-column text-center" style="padding: 2.5rem;">
-              <h5 class="card-title">Finance App</h5>
-              <img src="{% static 'portfolio/img/finance-app.png' %}" alt="Finance App Dashboard"
-                class="img-fluid mt-3 mb-3" style="max-height: 350px; width: auto; margin: 0 auto; padding: 0 1rem;">
-              <p class="card-text"><br>This Finance Tracker is a professional full-stack web application designed for
-                personal financial management, featuring transaction tracking, account visualization, and AI-powered
-                product recommendations based on spending patterns. The project implements a robust three-tier
-                architecture utilizing a React 18 frontend for a dynamic user interface, a Java Spring Boot 3.2.5
-                backend for complex business logic, and a PostgreSQL database for reliable data persistence. It ensures
-                data security through stateless JWT authentication and employs modern libraries like Recharts for data
-                visualization and Spring Data JPA for efficient database operations.<br><br>The application is deployed
-                across a distributed cloud infrastructure, with the frontend hosted on Vercel, the backend containerized
-                on Render, and the database managed by Aiven. Successful development and hosting demonstrated high-level
-                engineering competencies, including managing complex CORS configurations, implementing secure
-                authentication flows, and utilizing DevOps practices for cloud deployment. Furthermore, the integration
-                of the Gemini API for intelligent recommendations showcases the ability to incorporate advanced AI
-                features into a functional, production-ready financial tool.<br></p>
-              <span class="btn btn-outline-dark mt-auto" style="pointer-events: none;">View Project</span>
-            </div>
+    <!-- Project Details Display Area (Inline) -->
+    <div class="project-details-container mt-5">
+      <!-- Third Space Card -->
+      <div id="project-third-space" class="project-details-content">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6 mb-4">
+            <a href="https://third-state.vercel.app/" target="_blank" style="text-decoration: none; color: inherit;">
+              <div class="card h-100 mac-3d-card mac-3d-card-inline" style="cursor: pointer;">
+                <div class="card-body d-flex flex-column text-center" style="padding: 2.5rem;">
+                  <h5 class="card-title">Third Space</h5>
+                  <img src="{% static 'portfolio/img/third-space.png' %}" alt="Third Space Dashboard"
+                    class="img-fluid mt-3 mb-3" style="max-height: 350px; width: auto; margin: 0 auto; padding: 0 1rem;">
+                  <p class="card-text"><br>Third Space is a social platform built to help people move their connections offline. It lets users schedule real-world meetups, join interest-based groups called Circles, and build genuine in-person relationships. Beyond the core social features, the app includes realtime chat, event RSVPs, a reward system, calendar integration, and even in-app games like chess and Connect Four for breaking the ice. Under the hood it's a React and Tailwind single-page app backed by a Postgres database with row-level security, realtime subscriptions, and serverless edge functions running the backend logic. The web app is also wrapped as a native iOS build for App Store distribution, with production features like OAuth, push notifications, and Sign in with Apple. I designed and built the whole product end to end, from the schema and backend to the frontend and native deployment.<br></p>
+                  <span class="btn btn-outline-dark mt-auto" style="pointer-events: none;">View Project</span>
+                </div>
+              </div>
+            </a>
           </div>
-        </a>
+        </div>
+      </div>
+
+      <!-- Finance App Card -->
+      <div id="project-finance-app" class="project-details-content">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6 mb-4">
+            <a href="https://financeapp-chi-seven.vercel.app/" target="_blank" style="text-decoration: none; color: inherit;">
+              <div class="card h-100 mac-3d-card mac-3d-card-inline" style="cursor: pointer;">
+                <div class="card-body d-flex flex-column text-center" style="padding: 2.5rem;">
+                  <h5 class="card-title">Finance App</h5>
+                  <img src="{% static 'portfolio/img/finance-app.png' %}" alt="Finance App Dashboard"
+                    class="img-fluid mt-3 mb-3" style="max-height: 350px; width: auto; margin: 0 auto; padding: 0 1rem;">
+                  <p class="card-text"><br>This Finance Tracker is a professional full-stack web application designed for
+                    personal financial management, featuring transaction tracking, account visualization, and AI-powered
+                    product recommendations based on spending patterns. The project implements a robust three-tier
+                    architecture utilizing a React 18 frontend for a dynamic user interface, a Java Spring Boot 3.2.5
+                    backend for complex business logic, and a PostgreSQL database for reliable data persistence. It ensures
+                    data security through stateless JWT authentication and employs modern libraries like Recharts for data
+                    visualization and Spring Data JPA for efficient database operations.<br><br>The application is deployed
+                    across a distributed cloud infrastructure, with the frontend hosted on Vercel, the backend containerized
+                    on Render, and the database managed by Aiven. Successful development and hosting demonstrated high-level
+                    engineering competencies, including managing complex CORS configurations, implementing secure
+                    authentication flows, and utilizing DevOps practices for cloud deployment. Furthermore, the integration
+                    of the Gemini API for intelligent recommendations showcases the ability to incorporate advanced AI
+                    features into a functional, production-ready financial tool.<br></p>
+                  <span class="btn btn-outline-dark mt-auto" style="pointer-events: none;">View Project</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Placeholder empty state -->
-    <div class="row justify-content-center">
-      <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="200">
         <p class="lead text-muted">More projects coming soon.</p>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  let activeProjectId = null;
+
+  function toggleProject(id) {
+    const activeContent = document.getElementById('project-' + id);
+    const activeIcon = document.querySelector(`.app-icon-item[data-project="${id}"]`);
+    
+    // Hide all contents
+    const contents = document.querySelectorAll('.project-details-content');
+    contents.forEach(content => {
+      content.classList.remove('show');
+      content.style.display = 'none';
+    });
+    
+    // Deactivate all icons
+    const icons = document.querySelectorAll('.app-icon-item');
+    icons.forEach(icon => icon.classList.remove('active'));
+
+    if (activeProjectId === id) {
+      // If it was already active, clicking collapses it
+      activeProjectId = null;
+    } else {
+      // Otherwise, open the clicked project
+      if (activeContent) {
+        activeContent.style.display = 'block';
+        // Force layout reflow
+        activeContent.offsetHeight;
+        activeContent.classList.add('show');
+        
+        // Scroll to card smoothly
+        activeContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      if (activeIcon) {
+        activeIcon.classList.add('active');
+      }
+      activeProjectId = id;
+    }
+  }
+</script>
 {% endblock %}

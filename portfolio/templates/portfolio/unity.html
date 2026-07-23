@@ -14,104 +14,202 @@
     </div>
   </div>
 </section>
-
-
-<section class="bg-light text-dark py-5" id="unity-projects">
-  <div class="container">
-    <h2 class="text-center mb-5" data-aos="fade-up">Projects</h2>
-
-    <div class="row justify-content-center">
-      <!-- Kingdom Ruins Card -->
-      <div class="col-md-10 mb-4 shrink-card" data-aos="fade-up" data-aos-delay="100">
-        <a href="https://kingdom-ruins.vercel.app/" target="_blank" style="text-decoration: none; color: inherit;">
-          <div class="card mac-3d-card" id="kingdom-card"
-            style="cursor: pointer;">
-            <div class="card-body text-center">
-              <h5 class="card-title">Kingdom Ruins</h5>
-              <img src="{% static 'portfolio/img/kingdom_ruins.png' %}" alt="Kingdom Ruins" class="img-fluid mt-3 mb-3"
-                style="max-height: 300px; width: auto; margin: 0 auto;">
-              <p class="card-text mt-3" style="text-align: center;">
-                A virtual recreation of my board game Kingdom Ruins, brought to life as an interactive digital
-                experience. Kingdom Ruins is a strategic tabletop experience where players navigate the crumbling
-                remnants of a once-great civilization, balancing the desperate need for resource management with the
-                looming threat of total collapse. You aren't just building a kingdom; you're trying to sustain one
-                against the encroaching decay, forcing you to make tough tactical calls on whether to reinforce your
-                defenses or scavenge for lost relics. The gameplay feels both urgent and methodical, capturing that
-                specific tension of trying to forge a legacy in a world that is actively trying to slide into history.
-              </p>
-              <span class="btn btn-outline-dark mt-3" style="pointer-events: none;">View Project</span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Tiny World game card -->
-    <div id="game-card" class="row justify-content-center">
-      <div class="col-md-10 mb-4 shrink-card" data-aos="fade-up" data-aos-delay="100">
-        <div class="card mac-3d-card" id="unity-card"
-          style="cursor: pointer;">
-          <div class="card-body text-center">
-            <h5 class="card-title">Tiny World</h5>
-            <p class="card-text">Don't crash!</p>
-
-            <!-- Thumbnail -->
-            <div id="game-thumbnail" style="cursor: pointer;">
-              <img src="{% static 'portfolio/img/tinyworld.png' %}" alt="Tiny World Thumbnail" class="img-fluid"
-                style="max-height: 300px;" />
-            </div>
-
-            <!-- Summary -->
-            <p class="card-text mt-3" style="text-align: center;">
-              Tiny World is a 3D arcade driving game developed in Unity (C#) that utilizes custom spherical physics to
-              create a "small planet" gameplay loop. The project features a specialized player controller designed to
-              handle vehicle movement and gravity on a continuously rotating, non-planar surface. A key technical
-              component is the dynamic environmental progression system: as the player navigates the procedurally
-              generated course avoiding obstacles, the game logic manages real-time asset substitution to seamlessly
-              evolve the world's aesthetic and difficulty from a historic era into a futuristic cityscape based on
-              survival duration.
-            </p>
-
-            <!-- Game (hidden initially) -->
-            <div id="game-container"
-              style="width: 100%; height: 700px; overflow: hidden; display: none; margin-top: 20px;">
-              <iframe id="game-frame" src="" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
-            </div>
-
-            <button id="toggle-game" class="btn btn-outline-dark mt-3">Play Now</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Placeholder empty state -->
-    <div class="col-12 text-center mt-4" data-aos="fade-up" data-aos-delay="200">
-      <p class="lead text-muted">More projects coming soon.</p>
-    </div>
-
-  </div>
-</section>
-
+<!-- CUSTOM STYLES FOR APP ICONS AND INLINE CARDS -->
 <style>
+  .app-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3rem;
+  }
+  .app-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 160px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .app-icon-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 26px;
+    padding: 14px;
+    background: #18181b;
+    border: 2px solid #27272a;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  }
+  .app-icon-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .app-icon-label {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #212529;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  .app-icon-item:hover .app-icon-container,
+  .app-icon-item.active .app-icon-container {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 16px 32px rgba(99, 102, 241, 0.35), 0 0 15px rgba(99, 102, 241, 0.2);
+  }
+  .app-icon-item:hover .app-icon-label,
+  .app-icon-item.active .app-icon-label {
+    color: #4f46e5;
+  }
+
+  /* Inline Expandable/Collapse Card Transitions */
+  .project-details-container {
+    min-height: 0;
+    transition: all 0.4s ease;
+  }
+  .project-details-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .project-details-content.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .mac-3d-card-inline {
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hover-lift:hover {
+    transform: scale(1.02);
+  }
   .shrink-card {
     max-width: 500px;
     transition: max-width 0.5s ease;
   }
-
   .expand-card {
     max-width: 100%;
     transition: max-width 0.5s ease;
   }
 </style>
 
+<section class="bg-light text-dark py-5" id="unity-projects">
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="fade-up">Games</h2>
+
+    <!-- App Icon Grid -->
+    <div class="app-grid py-4" data-aos="fade-up" data-aos-delay="100">
+      <!-- Kingdom Ruins Icon -->
+      <div class="app-icon-item" data-project="kingdom-ruins" onclick="toggleProject('kingdom-ruins')">
+        <div class="app-icon-container">
+          <img src="{% static 'portfolio/img/kingdom-ruins-icon.png' %}" alt="Kingdom Ruins Icon" class="app-icon-img">
+        </div>
+        <div class="app-icon-label">Kingdom Ruins</div>
+      </div>
+
+      <!-- Tiny World Icon -->
+      <div class="app-icon-item" data-project="tiny-world" onclick="toggleProject('tiny-world')">
+        <div class="app-icon-container">
+          <img src="{% static 'portfolio/img/tiny-world-icon.png' %}" alt="Tiny World Icon" class="app-icon-img">
+        </div>
+        <div class="app-icon-label">Tiny World</div>
+      </div>
+    </div>
+
+    <!-- Project Details Display Area (Inline) -->
+    <div class="project-details-container mt-5">
+      <!-- Kingdom Ruins Card -->
+      <div id="project-kingdom-ruins" class="project-details-content">
+        <div class="row justify-content-center">
+          <div class="col-md-10 mb-4">
+            <a href="https://kingdom-ruins.vercel.app/" target="_blank" style="text-decoration: none; color: inherit;">
+              <div class="card mac-3d-card mac-3d-card-inline" id="kingdom-card">
+                <div class="card-body text-center" style="padding: 2.5rem;">
+                  <h5 class="card-title">Kingdom Ruins</h5>
+                  <img src="{% static 'portfolio/img/kingdom_ruins.png' %}" alt="Kingdom Ruins" class="img-fluid mt-3 mb-3"
+                    style="max-height: 300px; width: auto; margin: 0 auto;">
+                  <p class="card-text mt-3">
+                    A virtual recreation of my board game Kingdom Ruins, brought to life as an interactive digital
+                    experience. Kingdom Ruins is a strategic tabletop experience where players navigate the crumbling
+                    remnants of a once-great civilization, balancing the desperate need for resource management with the
+                    looming threat of total collapse. You aren't just building a kingdom; you're trying to sustain one
+                    against the encroaching decay, forcing you to make tough tactical calls on whether to reinforce your
+                    defenses or scavenge for lost relics. The gameplay feels both urgent and methodical, capturing that
+                    specific tension of trying to forge a legacy in a world that is actively trying to slide into history.
+                  </p>
+                  <span class="btn btn-outline-dark mt-3" style="pointer-events: none;">View Project</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tiny World Card -->
+      <div id="project-tiny-world" class="project-details-content">
+        <div class="row justify-content-center">
+          <div class="col-md-10 mb-4 shrink-card" style="margin: 0 auto;">
+            <div class="card mac-3d-card mac-3d-card-inline" id="unity-card" style="cursor: default;">
+              <div class="card-body text-center" style="padding: 2.5rem;">
+                <h5 class="card-title">Tiny World</h5>
+                <p class="card-text text-muted">Don't crash!</p>
+
+                <!-- Thumbnail -->
+                <div id="game-thumbnail" style="cursor: pointer; transition: transform 0.3s;" class="hover-lift">
+                  <img src="{% static 'portfolio/img/tinyworld.png' %}" alt="Tiny World Thumbnail" class="img-fluid rounded shadow-sm"
+                    style="max-height: 300px;" />
+                </div>
+
+                <!-- Summary -->
+                <p class="card-text mt-4">
+                  Tiny World is a 3D arcade driving game developed in Unity (C#) that utilizes custom spherical physics to
+                  create a "small planet" gameplay loop. The project features a specialized player controller designed to
+                  handle vehicle movement and gravity on a continuously rotating, non-planar surface. A key technical
+                  component is the dynamic environmental progression system: as the player navigates the procedurally
+                  generated course avoiding obstacles, the game logic manages real-time asset substitution to seamlessly
+                  evolve the world's aesthetic and difficulty from a historic era into a futuristic cityscape based on
+                  survival duration.
+                </p>
+
+                <!-- Game (hidden initially) -->
+                <div id="game-container"
+                  style="width: 100%; height: 600px; overflow: hidden; display: none; margin-top: 20px;">
+                  <iframe id="game-frame" src="" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+                </div>
+
+                <button id="toggle-game" class="btn btn-outline-dark mt-3">Play Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder empty state -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="200">
+        <p class="lead text-muted">More projects coming soon.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const toggleButton = document.getElementById("toggle-game");
     const gameContainer = document.getElementById("game-container");
     const thumbnail = document.getElementById("game-thumbnail");
-    const gameCard = document.querySelector(".col-md-10");
+    const gameCard = document.querySelector("#project-tiny-world .col-md-10");
 
     let isPlaying = false;
+    let activeProjectId = null;
 
     function toggleGame() {
       if (!isPlaying) {
@@ -129,14 +227,18 @@
         gameContainer.style.display = "block";
         thumbnail.style.display = "none";
         toggleButton.textContent = "Stop";
+        
+        // Expand the card column width
         gameCard.classList.remove("shrink-card");
         gameCard.classList.add("expand-card");
       } else {
-        // Remove the iframe completely from the DOM to release WebGL contexts and WebAssembly memory
+        // Remove the iframe completely to release WebGL contexts and WebAssembly memory
         gameContainer.innerHTML = "";
         gameContainer.style.display = "none";
         thumbnail.style.display = "block";
         toggleButton.textContent = "Play Now";
+        
+        // Shrink the card column width back
         gameCard.classList.remove("expand-card");
         gameCard.classList.add("shrink-card");
       }
@@ -144,51 +246,52 @@
     }
 
     toggleButton.addEventListener("click", function (e) {
-      e.stopPropagation(); // Prevent card click from triggering
+      e.stopPropagation(); // Prevent toggles
       toggleGame();
     });
     thumbnail.addEventListener("click", function (e) {
-      e.stopPropagation(); // Prevent card click from triggering
+      e.stopPropagation(); // Prevent toggles
       toggleGame();
     });
 
-    // Make entire card clickable
-    const unityCard = document.getElementById("unity-card");
-    if (unityCard) {
-      unityCard.addEventListener("click", function (e) {
-        // Don't trigger if clicking on the button or thumbnail (they handle their own clicks)
-        if (e.target !== toggleButton && e.target !== thumbnail && !thumbnail.contains(e.target)) {
-          toggleGame();
+    window.toggleProject = function(id) {
+      const activeContent = document.getElementById('project-' + id);
+      const activeIcon = document.querySelector(`.app-icon-item[data-project="${id}"]`);
+      
+      // Stop the game if it is playing when changing or closing projects
+      if (isPlaying) {
+        toggleGame();
+      }
+
+      // Hide all contents
+      const contents = document.querySelectorAll('.project-details-content');
+      contents.forEach(content => {
+        content.classList.remove('show');
+        content.style.display = 'none';
+      });
+      
+      // Deactivate all icons
+      const icons = document.querySelectorAll('.app-icon-item');
+      icons.forEach(icon => icon.classList.remove('active'));
+
+      if (activeProjectId === id) {
+        activeProjectId = null;
+      } else {
+        if (activeContent) {
+          activeContent.style.display = 'block';
+          // Force layout reflow
+          activeContent.offsetHeight;
+          activeContent.classList.add('show');
+          
+          // Scroll to card smoothly
+          activeContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-      });
-
-      // Add hover effect
-      unityCard.addEventListener("mouseenter", function () {
-        this.style.transform = "translateY(-5px)";
-        this.style.boxShadow = "0 10px 25px rgba(0, 0, 0, 0.15)";
-      });
-
-      unityCard.addEventListener("mouseleave", function () {
-        this.style.transform = "translateY(0)";
-        this.style.boxShadow = "";
-      });
-    }
-
-    // Add hover effect for Kingdom Ruins card
-    const kingdomCard = document.getElementById("kingdom-card");
-    if (kingdomCard) {
-      kingdomCard.addEventListener("mouseenter", function () {
-        this.style.transform = "translateY(-5px)";
-        this.style.boxShadow = "0 10px 25px rgba(0, 0, 0, 0.15)";
-      });
-
-      kingdomCard.addEventListener("mouseleave", function () {
-        this.style.transform = "translateY(0)";
-        this.style.boxShadow = "";
-      });
+        if (activeIcon) {
+          activeIcon.classList.add('active');
+        }
+        activeProjectId = id;
+      }
     }
   });
 </script>
-
-
 {% endblock %}
