@@ -1,122 +1,168 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | TinyWorld</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-  </head>
-  <body>
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">TinyWorld</div>
-      </div>
-    </div>
-    <script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+  <title>TinyWorld</title>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #16243f; }
+    /* No text selection / magnifier when players tap and hold on touch screens. */
+    body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-touch-callout: none; }
+    #unity-canvas { width: 100%; height: 100%; display: block; background: #16243f; outline: none; }
+    #loader { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+              background: radial-gradient(circle at 50% 40%, #2c5c9a, #16243f 70%); font-family: Arial, Helvetica, sans-serif; }
+    #loader .title { color: #40ff8c; font-size: min(12vw, 84px); font-weight: 900; letter-spacing: 2px; font-style: italic;
+                     text-shadow: 4px 4px 0 #0b1a33; margin-bottom: 28px; }
+    #loader .bar { width: min(70vw, 420px); height: 18px; border-radius: 9px; background: rgba(255,255,255,0.15); overflow: hidden; }
+    #loader .fill { width: 0%; height: 100%; background: #40ff8c; transition: width 0.15s; }
+    #loader .msg { color: #c8d4ea; margin-top: 14px; font-size: 15px; }
+    #rotate { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+              background: #16243f; color: #fff; font: bold 26px Arial, sans-serif; text-align: center; z-index: 20; gap: 18px; }
+    #rotate .phone { width: 56px; height: 96px; border: 5px solid #40ff8c; border-radius: 12px; animation: tw-turn 1.8s ease-in-out infinite; }
+    @keyframes tw-turn { 0%, 30% { transform: rotate(0deg); } 60%, 100% { transform: rotate(-90deg); } }
+    /* Phones held upright: the game is landscape (it pauses itself until turned). */
+    @media (orientation: portrait) and (pointer: coarse) { #rotate { display: flex; } }
+    #fake-ad { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.85);
+               color: #fff; font: bold 28px Arial, sans-serif; z-index: 10; }
+  </style>
+  
+</head>
+<body>
+  <canvas id="unity-canvas" tabindex="-1"></canvas>
+  <div id="loader">
+    <div class="title">TINY WORLD</div>
+    <div class="bar"><div class="fill" id="loader-fill"></div></div>
+    <div class="msg" id="loader-msg">Loading...</div>
+  </div>
+  <div id="fake-ad">TEST AD</div>
+  <div id="rotate"><div class="phone"></div><div>Turn your device sideways to play</div></div>
+  <script>
+    // Which portal this build is for: "crazygames", "poki", "test" or "none" (set by BuildScript).
+    // Add ?fakeads=1 to the URL to try the ad flow with a fake 2-second ad.
+    window.TW_PORTAL = "none";
+    // false for a CrazyGames Basic Launch build: their SDK runs (gameplay events, saving) but ads are not allowed yet.
+    window.TW_ADS_ON = "on" !== "off";
 
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-      var warningBanner = document.querySelector("#unity-warning");
+    window.TW_ADS = (function () {
+      var portal = window.TW_PORTAL;
+      try { if (new URLSearchParams(location.search).get("fakeads")) portal = "test"; } catch (e) {}
+      var ready = false;
 
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-        }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: red; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
+      function cg() { return window.CrazyGames && window.CrazyGames.SDK; }
+      function poki() { return window.PokiSDK; }
+      function send(method, arg) { if (window.unityInstance) window.unityInstance.SendMessage("[Ads]", method, arg); }
+      function fake(method, arg) {
+        var el = document.getElementById("fake-ad");
+        el.style.display = "flex";
+        setTimeout(function () { el.style.display = "none"; send(method, arg); }, 2000);
       }
 
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Build5.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/Build5.data",
-        frameworkUrl: buildUrl + "/Build5.framework.js",
-        codeUrl: buildUrl + "/Build5.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "icorp",
-        productName: "TinyWorld",
-        productVersion: "2.0",
-        showBanner: unityShowBanner,
-      };
-
-      // By default, Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
-
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-        container.className = "unity-mobile";
-        canvas.className = "unity-mobile";
-
-        // To lower canvas resolution on mobile devices to gain some
-        // performance, uncomment the following line:
-        // config.devicePixelRatio = 1;
-
-
-      } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-
-        canvas.style.width = "960px";
-        canvas.style.height = "600px";
-      }
-
-      loadingBar.style.display = "block";
-
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                loadingBar.style.display = "none";
-                fullscreenButton.onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };
-              }).catch((message) => {
-                alert(message);
+      return {
+        init: function () {
+          try {
+            if (portal === "crazygames" && cg()) return cg().init().then(function () { ready = true; }).catch(function (e) { console.warn("CrazyGames SDK init failed", e); });
+            if (portal === "poki" && poki()) return poki().init().then(function () { ready = true; }).catch(function () { ready = true; /* ad blocker: game still runs */ });
+            if (portal === "test") ready = true;
+          } catch (e) { console.warn(e); }
+          return Promise.resolve();
+        },
+        saveGet: function (key) {
+          if (portal === "crazygames" && ready && cg() && cg().data) return cg().data.getItem(key);
+          return window.localStorage.getItem(key);
+        },
+        saveSet: function (key, value) {
+          if (portal === "crazygames" && ready && cg() && cg().data) { cg().data.setItem(key, value); return; }
+          window.localStorage.setItem(key, value);
+        },
+        provider: function () {
+          if (!ready || !window.TW_ADS_ON) return 0;
+          return { crazygames: 1, poki: 2, test: 3 }[portal] || 0;
+        },
+        rewarded: function () {
+          try {
+            if (portal === "crazygames") {
+              cg().ad.requestAd("rewarded", {
+                adStarted: function () {},
+                adFinished: function () { send("OnRewarded", "1"); },
+                adError: function (e) { console.warn("rewarded ad error", e); send("OnRewarded", "0"); }
               });
-            };
+              return;
+            }
+            if (portal === "poki") { poki().rewardedBreak().then(function (ok) { send("OnRewarded", ok ? "1" : "0"); }); return; }
+            if (portal === "test") { fake("OnRewarded", "1"); return; }
+          } catch (e) { console.warn(e); }
+          send("OnRewarded", "0");
+        },
+        midgame: function () {
+          try {
+            if (portal === "crazygames") {
+              cg().ad.requestAd("midgame", {
+                adStarted: function () {},
+                adFinished: function () { send("OnMidgame", ""); },
+                adError: function () { send("OnMidgame", ""); }
+              });
+              return;
+            }
+            if (portal === "poki") { poki().commercialBreak().then(function () { send("OnMidgame", ""); }); return; }
+            if (portal === "test") { fake("OnMidgame", ""); return; }
+          } catch (e) { console.warn(e); }
+          send("OnMidgame", "");
+        },
+        gameplayStart: function () {
+          try { if (portal === "crazygames") cg().game.gameplayStart(); else if (portal === "poki") poki().gameplayStart(); } catch (e) {}
+        },
+        gameplayStop: function () {
+          try { if (portal === "crazygames") cg().game.gameplayStop(); else if (portal === "poki") poki().gameplayStop(); } catch (e) {}
+        },
+        happytime: function () {
+          try { if (portal === "crazygames") cg().game.happytime(); } catch (e) {}
+        },
+        loadingDone: function () {
+          try { if (portal === "crazygames") cg().game.loadingStop(); else if (portal === "poki") poki().gameLoadingFinished(); } catch (e) {}
+        },
+        loadingStart: function () {
+          try { if (portal === "crazygames") cg().game.loadingStart(); } catch (e) {}
+        }
+      };
+    })();
 
-      document.body.appendChild(script);
+    var canvas = document.querySelector("#unity-canvas");
+    var buildUrl = "Build";
+    var config = {
+      dataUrl: buildUrl + "/TinyWorld.data.unityweb",
+      frameworkUrl: buildUrl + "/TinyWorld.framework.js.unityweb",
+      codeUrl: buildUrl + "/TinyWorld.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "icorp",
+      productName: "TinyWorld",
+      productVersion: "1.0.0",
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.5), // sharp enough, much cheaper on hi-dpi screens
+      showBanner: function (msg, type) { if (type === "error") console.error(msg); else console.warn(msg); }
+    };
 
-    </script>
-  </body>
+    // Stop the page from scrolling / zooming on touch and keep keyboard focus on the game.
+    canvas.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+    window.addEventListener("keydown", function (e) {
+      if ([" ", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.key) >= 0) e.preventDefault();
+    });
+
+    var script = document.createElement("script");
+    script.src = buildUrl + "/TinyWorld.loader.js";
+    script.onload = function () {
+      window.TW_ADS.init().then(function () {
+        window.TW_ADS.loadingStart();
+        return createUnityInstance(canvas, config, function (p) {
+          document.getElementById("loader-fill").style.width = Math.round(p * 100) + "%";
+        });
+      }).then(function (instance) {
+        window.unityInstance = instance;
+        document.getElementById("loader").style.display = "none";
+        canvas.focus();
+      }).catch(function (message) {
+        document.getElementById("loader-msg").textContent = "Could not start the game: " + message;
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
 </html>
